@@ -24,7 +24,7 @@ body {
     position: relative;
 }
 
-.cafe-logo {
+.cafe-logo > img {
     width: 150px;
     height: 150px;
     background: #d4a574;

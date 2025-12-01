@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Order System</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <!-- Landing Page with Restaurant Info -->
+    <div id="landingPage" class="landing-page">
+        <div class="cafe-logo">☕</div>
+        <div class="landing-content">
+            <h1 class="cafe-name">Greens Cafe</h1>
+            <p class="cafe-tagline">"Where Every Sip Tells a Story"</p>
+            <p class="cafe-description">
+                Welcome to Cafe, your perfect destination for exceptional coffee, delicious food, and warm
+                hospitality.
+                Established in 2025, we have been serving the community with passion and dedication. Our cozy
+                atmosphere,
+                combined with premium quality ingredients and expert craftsmanship, makes every visit a memorable
+                experience.
+                Whether you're here for a quick caffeine fix, a hearty meal, or a relaxing afternoon, we've got you
+                covered.
+            </p>
+            <div class="owner-info">
+                <h3>🏢 About Our Establishment & Features ⤵️</h3>
+                <div class="owner-details">
+                    <div class="owner-detail-item">
+                        <strong>Owner:</strong>
+                        <span>Michael Anderson</span>
+                    </div>
+                    <div class="owner-detail-item">
+                        <strong>Co-Owner:</strong>
+                        <span>Sarah Anderson</span>
+                    </div>
+                    <div class="owner-detail-item">
+                        <strong>Restaurant Code:</strong>
+                        <span>MC-2456</span>
+                    </div>
+                    <div class="owner-detail-item">
+                        <strong>Contact:</strong>
+                        <span>+1 (555) 123-4567</span>
+                    </div>
+                    <div class="owner-detail-item">
+                        <strong>Location:</strong>
+                        <span>123 Coffee Street, Downtown</span>
+                    </div>
+                    <div class="owner-detail-item">
+                        <strong>Operating Hours:</strong>
+                        <span>7:00 AM - 10:00 PM</span>
+                    </div>
+                </div>
+            </div>
+            <div class="facilities-grid">
+                <div class="facility-card">
+                    <div class="facility-icon">🌐</div>
+                    <h4>Free WiFi</h4>
+                    <p>High-speed internet for all customers</p>
+                </div>
+                <div class="facility-card">
+                    <div class="facility-icon">🅿️</div>
+                    <h4>Parking</h4>
+                    <p>Ample parking space available</p>
+                </div>
+                <div class="facility-card">
+                    <div class="facility-icon">❄️</div>
+                    <h4>AC Dining</h4>
+                    <p>Comfortable air-conditioned seating</p>
+                </div>
+                <div class="facility-card">
+                    <div class="facility-icon">🎵</div>
+                    <h4>Live Music</h4>
+                    <p>Weekend live performances</p>
+                </div>
+                <div class="facility-card">
+                    <div class="facility-icon">🌱</div>
+                    <h4>Organic Options</h4>
+                    <p>Fresh, locally sourced ingredients</p>
+                </div>
+                <div class="facility-card">
+                    <div class="facility-icon">👶</div>
+                    <h4>Family Friendly</h4>
+                    <p>Kids menu and play area</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Role Selection Section -->
+    <div id="roleSelectionSection" class="role-selection-section">
+        <div class="container">
+            <h2
+                style="text-align: center; color: #d4a574; font-size: 36px; margin-bottom: 40px; font-family: 'Brush Script MT', cursive;">
+                Select Your Role</h2>
+
+            <!-- Role Selection Page -->
+            <div id="roleSelection" class="role-selection">
+                <div class="role-card">
+                    <h2>👤 Customer</h2>
+                    <p>Browse menu and place orders</p>
+                    <button onclick="showCustomerDashboard()">Continue as Customer</button>
+                </div>
+                <div class="role-card">
+                    <h2>🍽️ Waiter</h2>
+                    <p>Manage customer orders</p>
+                    <button onclick="showLogin('waiter')">Login as Waiter</button>
+                </div>
+                <div class="role-card">
+                    <h2>👔 Owner</h2>
+                    <p>View all orders and analytics</p>
+                    <button onclick="showLogin('owner')">Login as Owner</button>
+                </div>
+            </div>
+</body>
+
+</html>

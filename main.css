@@ -24,7 +24,7 @@ body {
     position: relative;
 }
 
-.cafe-logo > img {
+.cafe-logo>img {
     width: 150px;
     height: 150px;
     background: #d4a574;
@@ -163,6 +163,14 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
+}
+
+.container h2 {
+    text-align: center;
+    color: #d4a574;
+    font-size: 36px;
+    margin-bottom: 40px;
+    font-family: 'Brush Script MT', cursive;
 }
 
 /* Chalkboard Theme */

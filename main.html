@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu Order System</title>
+    <link rel="icon" type="image/x-icon" href="Greenlogo.png">
+    <title>Menu Order - Greens Cafe</title>
     <style>
         * {
             margin: 0;
@@ -397,13 +398,9 @@
 </head>
 
 <body>
-    <!-- Main App Container -->
     <div id="app"></div>
 
     <script>
-        // ================================
-        // DATA & CONFIG
-        // ================================
         const menuData = {
             "Beverages": [
                 { id: 1, name: "Cappuccino", description: "Rich espresso with steamed milk foam", price: 3.5 },
@@ -430,9 +427,6 @@
             ]
         };
 
-        // ================================
-        // STATE MANAGEMENT
-        // ================================
         let state = {
             view: 'landing',
             currentRole: null,
@@ -444,9 +438,6 @@
             ]
         };
 
-        // ================================
-        // UTILITY FUNCTIONS
-        // ================================
         function formatCurrency(n) {
             return n.toFixed(2);
         }
@@ -471,10 +462,6 @@
                 default: return 'status-pending';
             }
         }
-
-        // ================================
-        // STATE MANAGEMENT ACTIONS
-        // ================================
         function setState(newState) {
             state = { ...state, ...newState };
             render();
@@ -553,10 +540,6 @@
         function logout() {
             setState({ view: 'landing', currentUser: null, currentRole: null, cart: [] });
         }
-
-        // ================================
-        // RENDER FUNCTIONS
-        // ================================
         function render() {
             const app = document.getElementById('app');
             switch (state.view) {
@@ -591,160 +574,160 @@
 
         function renderLanding() {
             return `
-            <div class="landing-page">
-                <div class="cafe-logo">
-                    <img src="Greenlogo.png" alt="Greens Cafe Logo">
-                </div>
-                <div class="landing-content">
-                    <h1 class="cafe-name">Greens Cafe</h1>
-                    <p class="cafe-tagline">"Where Every Sip Tells a Story"</p>
-                    <p class="cafe-description">
-                        Welcome to Greens Cafe, your perfect destination for exceptional coffee, delicious food, and warm
-                        hospitality. Established in 2025, we serve the community with passion and dedication.
-                    </p>
+    <div class="landing-page">
+        <div class="cafe-logo">
+            <img src="Greenlogo.png" alt="Greens Cafe Logo">
+        </div>
+        <div class="landing-content">
+            <h1 class="cafe-name">Greens Cafe</h1>
+            <p class="cafe-tagline">"Where Every Sip Tells a Story"</p>
+            <p class="cafe-description">
+                Welcome to Greens Cafe, your perfect destination for exceptional coffee, delicious food, and warm
+                hospitality. Established in 2025, we serve the community with passion and dedication.
+            </p>
 
-                    <div class="owner-info">
-                        <h3>🏢 About Our Establishment & Features</h3>
-                        <div class="owner-details">
-                            <div class="owner-detail-item">
-                                <strong>Owner:</strong>
-                                <span>Prashant Shrestha</span>
-                            </div>
-                            <div class="owner-detail-item">
-                                <strong>Co-Owner:</strong>
-                                <span>Lana Lodes</span>
-                            </div>
-                            <div class="owner-detail-item">
-                                <strong>Restaurant Code:</strong>
-                                <span>MC-0484</span>
-                            </div>
-                            <div class="owner-detail-item">
-                                <strong>Contact:</strong>
-                                <span>+977-9705397845</span>
-                            </div>
-                            <div class="owner-detail-item">
-                                <strong>Location:</strong>
-                                <span>Manakamana college side, Birtamode Jhapa</span>
-                            </div>
-                            <div class="owner-detail-item">
-                                <strong>Operating Hours:</strong>
-                                <span>7:00 AM - 10:00 PM</span>
-                            </div>
-                        </div>
+            <div class="owner-info">
+                <h3>🏢 About Our Establishment & Features</h3>
+                <div class="owner-details">
+                    <div class="owner-detail-item">
+                        <strong>Owner:</strong>
+                        <span>Prashant Shrestha</span>
                     </div>
-
-                    <div class="facilities-grid">
-                        <div class="facility-card">
-                            <div class="facility-icon">🌐</div>
-                            <h4>Free WiFi</h4>
-                            <p>High-speed internet for all customers</p>
-                        </div>
-                        <div class="facility-card">
-                            <div class="facility-icon">🅿️</div>
-                            <h4>Parking</h4>
-                            <p>Ample parking space available</p>
-                        </div>
-                        <div class="facility-card">
-                            <div class="facility-icon">❄️</div>
-                            <h4>AC Dining</h4>
-                            <p>Comfortable air-conditioned seating</p>
-                        </div>
-                        <div class="facility-card">
-                            <div class="facility-icon">🎵</div>
-                            <h4>Live Music</h4>
-                            <p>Weekend live performances</p>
-                        </div>
-                        <div class="facility-card">
-                            <div class="facility-icon">🌱</div>
-                            <h4>Organic Options</h4>
-                            <p>Fresh, locally sourced ingredients</p>
-                        </div>
-                        <div class="facility-card">
-                            <div class="facility-icon">👶</div>
-                            <h4>Family Friendly</h4>
-                            <p>Kids menu and play area</p>
-                        </div>
+                    <div class="owner-detail-item">
+                        <strong>Co-Owner:</strong>
+                        <span>Lana Lodes</span>
                     </div>
-
-                    <div style="margin-top: 30px; text-align: center;">
-                        <button class="btn-amber" onclick="setState({view: 'roleSelect'})">Continue to Menu</button>
+                    <div class="owner-detail-item">
+                        <strong>Restaurant Code:</strong>
+                        <span>MC-0484</span>
+                    </div>
+                    <div class="owner-detail-item">
+                        <strong>Contact:</strong>
+                        <span>+977-9705397845</span>
+                    </div>
+                    <div class="owner-detail-item">
+                        <strong>Location:</strong>
+                        <span>Manakamana college side, Birtamode Jhapa</span>
+                    </div>
+                    <div class="owner-detail-item">
+                        <strong>Operating Hours:</strong>
+                        <span>7:00 AM - 10:00 PM</span>
                     </div>
                 </div>
             </div>
-        `;
+
+            <div class="facilities-grid">
+                <div class="facility-card">
+                    <div class="facility-icon">🌐</div>
+                    <h4>Free WiFi</h4>
+                    <p>High-speed internet for all customers</p>
+                </div>
+                <div class="facility-card">
+                    <div class="facility-icon">🅿️</div>
+                    <h4>Parking</h4>
+                    <p>Ample parking space available</p>
+                </div>
+                <div class="facility-card">
+                    <div class="facility-icon">❄️</div>
+                    <h4>AC Dining</h4>
+                    <p>Comfortable air-conditioned seating</p>
+                </div>
+                <div class="facility-card">
+                    <div class="facility-icon">🎵</div>
+                    <h4>Live Music</h4>
+                    <p>Weekend live performances</p>
+                </div>
+                <div class="facility-card">
+                    <div class="facility-icon">🌱</div>
+                    <h4>Organic Options</h4>
+                    <p>Fresh, locally sourced ingredients</p>
+                </div>
+                <div class="facility-card">
+                    <div class="facility-icon">👶</div>
+                    <h4>Family Friendly</h4>
+                    <p>Kids menu and play area</p>
+                </div>
+            </div>
+
+            <div style="margin-top: 30px; text-align: center;">
+                <button class="btn-amber" onclick="setState({view: 'roleSelect'})">Continue to Menu</button>
+            </div>
+        </div>
+    </div>
+`;
         }
 
         function renderRoleSelect() {
             return `
-            <div class="role-selection-section">
-                <div class="container">
-                    <h2>Select Your Role</h2>
-                    <div class="role-selection">
-                        <div class="role-card">
-                            <h2>👤 Customer</h2>
-                            <p>Browse menu and place orders</p>
-                            <button onclick="setState({view: 'customer'})">Continue as Customer</button>
-                        </div>
-                        <div class="role-card">
-                            <h2>🍽️ Waiter</h2>
-                            <p>Manage customer orders</p>
-                            <button onclick="setState({view: 'waiterLogin'})">Login as Waiter</button>
-                        </div>
-                        <div class="role-card">
-                            <h2>👔 Owner</h2>
-                            <p>View all orders and analytics</p>
-                            <button onclick="setState({view: 'ownerLogin'})">Login as Owner</button>
-                        </div>
-                    </div>
+    <div class="role-selection-section">
+        <div class="container">
+            <h2>Select Your Role</h2>
+            <div class="role-selection">
+                <div class="role-card">
+                    <h2>👤 Customer</h2>
+                    <p>Browse menu and place orders</p>
+                    <button onclick="setState({view: 'customer'})">Continue as Customer</button>
+                </div>
+                <div class="role-card">
+                    <h2>🍽️ Waiter</h2>
+                    <p>Manage customer orders</p>
+                    <button onclick="setState({view: 'waiterLogin'})">Login as Waiter</button>
+                </div>
+                <div class="role-card">
+                    <h2>👔 Owner</h2>
+                    <p>View all orders and analytics</p>
+                    <button onclick="setState({view: 'ownerLogin'})">Login as Owner</button>
                 </div>
             </div>
-        `;
+        </div>
+    </div>
+`;
         }
 
         function renderWaiterLogin() {
             return `
-            <div style="min-height: 100vh; padding: 48px 20px; display: flex; align-items: center; justify-content: center;">
-                <div class="card" style="max-width: 480px; width: 100%;">
-                    <button onclick="setState({view: 'roleSelect'})" class="btn-amber" style="margin-bottom: 12px;">← Back</button>
-                    <h2 style="text-align: center; font-size: 28px; color: #d4a574; margin-bottom: 18px;">Waiter Login</h2>
-                    <div style="display: flex; flex-direction: column; gap: 16px;">
-                        <div>
-                            <label style="display: block; color: #fff; margin-bottom: 6px;">User ID (UID)</label>
-                            <input id="waiterUid" type="text" value="1001234567" />
-                        </div>
-                        <div>
-                            <label style="display: block; color: #fff; margin-bottom: 6px;">Password</label>
-                            <input id="waiterPassword" type="password" value="waiter123" />
-                        </div>
-                        <button class="btn-amber" style="width: 100%;" onclick="loginWaiter()">Login</button>
-                        <p style="text-align: center; color: #bbb; font-size: 13px;">Demo: UID: 1001234567 | Pass: waiter123</p>
-                    </div>
+    <div style="min-height: 100vh; padding: 48px 20px; display: flex; align-items: center; justify-content: center;">
+        <div class="card" style="max-width: 480px; width: 100%;">
+            <button onclick="setState({view: 'roleSelect'})" class="btn-amber" style="margin-bottom: 12px;">← Back</button>
+            <h2 style="text-align: center; font-size: 28px; color: #d4a574; margin-bottom: 18px;">Waiter Login</h2>
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+                <div>
+                    <label style="display: block; color: #fff; margin-bottom: 6px;">User ID (UID)</label>
+                    <input id="waiterUid" type="text" value="1001234567" />
                 </div>
+                <div>
+                    <label style="display: block; color: #fff; margin-bottom: 6px;">Password</label>
+                    <input id="waiterPassword" type="password" value="waiter123" />
+                </div>
+                <button class="btn-amber" style="width: 100%;" onclick="loginWaiter()">Login</button>
+                <p style="text-align: center; color: #bbb; font-size: 13px;">Demo: UID: 1001234567 | Pass: waiter123</p>
             </div>
-        `;
+        </div>
+    </div>
+`;
         }
 
         function renderOwnerLogin() {
             return `
-            <div style="min-height: 100vh; padding: 48px 20px; display: flex; align-items: center; justify-content: center;">
-                <div class="card" style="max-width: 480px; width: 100%;">
-                    <button onclick="setState({view: 'roleSelect'})" class="btn-amber" style="margin-bottom: 12px;">← Back</button>
-                    <h2 style="text-align: center; font-size: 28px; color: #d4a574; margin-bottom: 18px;">Owner Login</h2>
-                    <div style="display: flex; flex-direction: column; gap: 16px;">
-                        <div>
-                            <label style="display: block; color: #fff; margin-bottom: 6px;">User ID (UID)</label>
-                            <input id="ownerUid" type="text" value="2000000001" />
-                        </div>
-                        <div>
-                            <label style="display: block; color: #fff; margin-bottom: 6px;">Password</label>
-                            <input id="ownerPassword" type="password" value="owner123" />
-                        </div>
-                        <button class="btn-amber" style="width: 100%;" onclick="loginOwner()">Login</button>
-                        <p style="text-align: center; color: #bbb; font-size: 13px;">Demo: UID: 2000000001 | Pass: owner123</p>
-                    </div>
+    <div style="min-height: 100vh; padding: 48px 20px; display: flex; align-items: center; justify-content: center;">
+        <div class="card" style="max-width: 480px; width: 100%;">
+            <button onclick="setState({view: 'roleSelect'})" class="btn-amber" style="margin-bottom: 12px;">← Back</button>
+            <h2 style="text-align: center; font-size: 28px; color: #d4a574; margin-bottom: 18px;">Owner Login</h2>
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+                <div>
+                    <label style="display: block; color: #fff; margin-bottom: 6px;">User ID (UID)</label>
+                    <input id="ownerUid" type="text" value="2000000001" />
                 </div>
+                <div>
+                    <label style="display: block; color: #fff; margin-bottom: 6px;">Password</label>
+                    <input id="ownerPassword" type="password" value="owner123" />
+                </div>
+                <button class="btn-amber" style="width: 100%;" onclick="loginOwner()">Login</button>
+                <p style="text-align: center; color: #bbb; font-size: 13px;">Demo: UID: 2000000001 | Pass: owner123</p>
             </div>
-        `;
+        </div>
+    </div>
+`;
         }
 
         function renderCustomerView() {
@@ -752,235 +735,231 @@
             const hasItems = state.cart.length > 0;
 
             return `
-            <div style="min-height: 100vh; padding: 32px 20px;">
-                <div class="container">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                        <h1 style="font-size: 32px;" class="text-amber">Menu</h1>
-                        <button class="btn-amber" onclick="logout()">Exit</button>
-                    </div>
+    <div style="min-height: 100vh; padding: 32px 20px;">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h1 style="font-size: 32px;" class="text-amber">Menu</h1>
+                <button class="btn-amber" onclick="logout()">Exit</button>
+            </div>
 
-                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
-                        <div>
-                            ${Object.entries(menuData).map(([category, items]) => `
-                                <div style="margin-bottom: 28px;">
-                                    <h2 style="font-size: 20px; color: #d4a574; margin-bottom: 12px;">${category}</h2>
-                                    <div class="grid-2">
-                                        ${items.map(item => `
-                                            <div class="card">
-                                                <h3 style="font-size: 18px; margin-bottom: 8px;">${item.name}</h3>
-                                                <p class="muted" style="font-size: 13px; margin-bottom: 12px;">${item.description}</p>
-                                                <div style="display: flex; justify-content: space-between; align-items: center;">
-                                                    <span class="text-amber" style="font-size: 18px; font-weight: bold;">$${formatCurrency(item.price)}</span>
-                                                    <button class="btn-amber" onclick="addToCart(${JSON.stringify(item).replace(/"/g, '&quot;')})">+ Add</button>
-                                                </div>
-                                            </div>
-                                        `).join('')}
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
+                <div>
+                    ${Object.entries(menuData).map(([category, items]) => `
+                        <div style="margin-bottom: 28px;">
+                            <h2 style="font-size: 20px; color: #d4a574; margin-bottom: 12px;">${category}</h2>
+                            <div class="grid-2">
+                                ${items.map(item => `
+                                    <div class="card">
+                                        <h3 style="font-size: 18px; margin-bottom: 8px;">${item.name}</h3>
+                                        <p class="muted" style="font-size: 13px; margin-bottom: 12px;">${item.description}</p>
+                                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                                            <span class="text-amber" style="font-size: 18px; font-weight: bold;">$${formatCurrency(item.price)}</span>
+                                            <button class="btn-amber" onclick="addToCart(${JSON.stringify(item).replace(/"/g, '&quot;')})">+ Add</button>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <div class="card" style="position: sticky; top: 20px; align-self: start; height: fit-content;">
+                    <h2 style="font-size: 18px; margin-bottom: 16px;" class="text-amber">🛒 Your Order</h2>
+                    ${hasItems ? `
+                        <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; max-height: 400px; overflow-y: auto;">
+                            ${state.cart.map(item => `
+                                <div class="cart-item">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                        <strong>${item.name}</strong>
+                                        <button class="remove-btn" onclick="removeFromCart(${item.id})">✕</button>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <div class="cart-controls">
+                                            <button class="qty-btn" onclick="updateQuantity(${item.id}, -1)">−</button>
+                                            <span>${item.quantity}</span>
+                                            <button class="qty-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
+                                        </div>
+                                        <div style="font-weight: bold;">$${formatCurrency(item.price * item.quantity)}</div>
                                     </div>
                                 </div>
                             `).join('')}
                         </div>
-
-                        <div class="card" style="position: sticky; top: 20px; align-self: start; height: fit-content;">
-                            <h2 style="font-size: 18px; margin-bottom: 16px;" class="text-amber">🛒 Your Order</h2>
-                            ${hasItems ? `
-                                <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; max-height: 400px; overflow-y: auto;">
-                                    ${state.cart.map(item => `
-                                        <div class="cart-item">
-                                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                                                <strong>${item.name}</strong>
-                                                <button class="remove-btn" onclick="removeFromCart(${item.id})">✕</button>
-                                            </div>
-                                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                                <div class="cart-controls">
-                                                    <button class="qty-btn" onclick="updateQuantity(${item.id}, -1)">−</button>
-                                                    <span>${item.quantity}</span>
-                                                    <button class="qty-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
-                                                </div>
-                                                <div style="font-weight: bold;">$${formatCurrency(item.price * item.quantity)}</div>
-                                            </div>
-                                        </div>
-                                    `).join('')}
-                                </div>
-                                <div style="border-top: 1px solid rgba(255, 255, 255, 0.06); padding-top: 12px; margin-bottom: 16px;">
-                                    <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px;">
-                                        <span>Total:</span>
-                                        <span class="text-amber">$${total}</span>
-                                    </div>
-                                </div>
-                                <button class="btn-amber" style="width: 100%;" onclick="placeOrder()">Place Order</button>
-                            ` : `
-                                <p class="muted" style="text-align: center; padding: 24px; font-style: italic;">No items added yet</p>
-                            `}
+                        <div style="border-top: 1px solid rgba(255, 255, 255, 0.06); padding-top: 12px; margin-bottom: 16px;">
+                            <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px;">
+                                <span>Total:</span>
+                                <span class="text-amber">$${total}</span>
+                            </div>
                         </div>
-                    </div>
+                        <button class="btn-amber" style="width: 100%;" onclick="placeOrder()">Place Order</button>
+                    ` : `
+                        <p class="muted" style="text-align: center; padding: 24px; font-style: italic;">No items added yet</p>
+                    `}
                 </div>
             </div>
-        `;
+        </div>
+    </div>
+`;
         }
 
         function renderWaiterDashboard() {
             const waiterOrders = state.orders.filter(o => o.waiter === state.currentUser?.name);
 
             return `
-            <div style="min-height: 100vh; padding: 28px 20px;">
-                <div class="container">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px;">
-                        <h1 class="text-amber" style="font-size: 28px;">Waiter Dashboard</h1>
-                        <div style="display: flex; gap: 12px; align-items: center;">
-                            <span style="background: rgba(255, 255, 255, 0.04); padding: 8px 12px; border-radius: 8px;">👤 ${state.currentUser?.name}</span>
-                            <button class="btn-amber" onclick="logout()">Logout</button>
-                        </div>
-                    </div>
-
-                    <div class="card" style="margin-bottom: 24px;">
-                        <h2 class="text-amber" style="margin-bottom: 12px;">Current Orders</h2>
-            // Initial render + attach
-            document.addEventListener('DOMContentLoaded', function() {
-                render();
-                attachEventListeners();
-            });
-                                    <tr>
-                                        <th>Table</th>
-                                        <th>Order ID</th>
-                                        <th>Items</th>
-                                        <th>Total</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${waiterOrders.map(order => `
-                                        <tr>
-                                            <td>${order.tableNo}</td>
-                                            <td>#${order.id}</td>
-                                            <td>${order.items}</td>
-                                            <td>$${formatCurrency(order.total)}</td>
-                                            <td><span class="status-badge ${getStatusClass(order.status)}">${order.status}</span></td>
-                                        </tr>
-                                    `).join('')}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <div class="grid-3">
-                        <div class="card">
-                            <div style="font-size: 28px; margin-bottom: 8px;">💰</div>
-                            <h3 class="muted">Total Earnings</h3>
-                            <p style="font-size: 20px; font-weight: bold;">$203.50</p>
-                        </div>
-                        <div class="card">
-                            <div style="font-size: 28px; margin-bottom: 8px;">📈</div>
-                            <h3 class="muted">Commission</h3>
-                            <p style="font-size: 20px; font-weight: bold;">$125.50</p>
-                        </div>
-                        <div class="card">
-                            <div style="font-size: 28px; margin-bottom: 8px;">⭐</div>
-                            <h3 class="muted">Tips Received</h3>
-                            <p style="font-size: 20px; font-weight: bold;">$78.00</p>
-                        </div>
-                    </div>
+    <div style="min-height: 100vh; padding: 28px 20px;">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px;">
+                <h1 class="text-amber" style="font-size: 28px;">Waiter Dashboard</h1>
+                <div style="display: flex; gap: 12px; align-items: center;">
+                    <span style="background: rgba(255, 255, 255, 0.04); padding: 8px 12px; border-radius: 8px;">👤 ${state.currentUser?.name}</span>
+                    <button class="btn-amber" onclick="logout()">Logout</button>
                 </div>
             </div>
-        `;
+
+            <div class="card" style="margin-bottom: 24px;">
+                <h2 class="text-amber" style="margin-bottom: 12px;">Current Orders</h2>
+    // Initial render + attach
+    document.addEventListener('DOMContentLoaded', function() {
+        render();
+        attachEventListeners();
+    });
+                            <tr>
+                                <th>Table</th>
+                                <th>Order ID</th>
+                                <th>Items</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${waiterOrders.map(order => `
+                                <tr>
+                                    <td>${order.tableNo}</td>
+                                    <td>#${order.id}</td>
+                                    <td>${order.items}</td>
+                                    <td>$${formatCurrency(order.total)}</td>
+                                    <td><span class="status-badge ${getStatusClass(order.status)}">${order.status}</span></td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="grid-3">
+                <div class="card">
+                    <div style="font-size: 28px; margin-bottom: 8px;">💰</div>
+                    <h3 class="muted">Total Earnings</h3>
+                    <p style="font-size: 20px; font-weight: bold;">$203.50</p>
+                </div>
+                <div class="card">
+                    <div style="font-size: 28px; margin-bottom: 8px;">📈</div>
+                    <h3 class="muted">Commission</h3>
+                    <p style="font-size: 20px; font-weight: bold;">$125.50</p>
+                </div>
+                <div class="card">
+                    <div style="font-size: 28px; margin-bottom: 8px;">⭐</div>
+                    <h3 class="muted">Tips Received</h3>
+                    <p style="font-size: 20px; font-weight: bold;">$78.00</p>
+                </div>
+            </div>
+        </div>
+    </div>
+`;
         }
 
         function renderOwnerDashboard() {
             return `
-            <div style="min-height: 100vh; padding: 28px 20px;">
-                <div class="container">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px;">
-                        <h1 class="text-amber" style="font-size: 28px;">Owner Dashboard</h1>
-                        <button class="btn-amber" onclick="logout()">Logout</button>
-                    </div>
+    <div style="min-height: 100vh; padding: 28px 20px;">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px;">
+                <h1 class="text-amber" style="font-size: 28px;">Owner Dashboard</h1>
+                <button class="btn-amber" onclick="logout()">Logout</button>
+            </div>
 
-                    <div class="grid-4">
-                        <div class="card">
-                            <h3 class="muted">Total Sales</h3>
-                            <p style="font-size: 20px; font-weight: bold;">$1,245.50</p>
-                        </div>
-                        <div class="card">
-                            <h3 class="muted">Total Orders</h3>
-                            <p style="font-size: 20px; font-weight: bold;">${state.orders.length}</p>
-                        </div>
-                        <div class="card">
-                            <h3 class="muted">Net Profit</h3>
-                            <p style="font-size: 20px; font-weight: bold;">$622.25</p>
-                        </div>
-                        <div class="card">
-                            <h3 class="muted">Avg Order</h3>
-                            <p style="font-size: 20px; font-weight: bold;">$25.95</p>
-                        </div>
-                    </div>
-
-                    <div class="card" style="margin-top: 24px; margin-bottom: 24px;">
-                        <h2 class="text-amber" style="margin-bottom: 12px;">All Orders</h2>
-                        <div style="overflow-x: auto;">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Order ID</th>
-                                        <th>Table</th>
-                                        <th>Items</th>
-                                        <th>Total</th>
-                                        <th>Status</th>
-                                        <th>Waiter</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${state.orders.map(order => `
-                                        <tr>
-                                            <td>${order.date}</td>
-                                            <td>#${order.id}</td>
-                                            <td>${order.tableNo}</td>
-                                            <td>${order.items}</td>
-                                            <td>$${formatCurrency(order.total)}</td>
-                                            <td><span class="status-badge ${getStatusClass(order.status)}">${order.status}</span></td>
-                                            <td>${order.waiter}</td>
-                                        </tr>
-                                    `).join('')}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <h2 class="text-amber" style="margin-bottom: 12px;">Waiter Performance</h2>
-                        <div style="overflow-x: auto;">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>UID</th>
-                                        <th>Orders</th>
-                                        <th>Commission</th>
-                                        <th>Tips</th>
-                                        <th>Rating</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${mockUsers.waiters.map(waiter => `
-                                        <tr>
-                                            <td>${waiter.name}</td>
-                                            <td>${waiter.uid}</td>
-                                            <td>24</td>
-                                            <td>$62.50</td>
-                                            <td>$45.00</td>
-                                            <td>⭐⭐⭐⭐⭐</td>
-                                        </tr>
-                                    `).join('')}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+            <div class="grid-4">
+                <div class="card">
+                    <h3 class="muted">Total Sales</h3>
+                    <p style="font-size: 20px; font-weight: bold;">$1,245.50</p>
+                </div>
+                <div class="card">
+                    <h3 class="muted">Total Orders</h3>
+                    <p style="font-size: 20px; font-weight: bold;">${state.orders.length}</p>
+                </div>
+                <div class="card">
+                    <h3 class="muted">Net Profit</h3>
+                    <p style="font-size: 20px; font-weight: bold;">$622.25</p>
+                </div>
+                <div class="card">
+                    <h3 class="muted">Avg Order</h3>
+                    <p style="font-size: 20px; font-weight: bold;">$25.95</p>
                 </div>
             </div>
-        `;
-        }
 
-        // ================================
-        // INITIALIZE APP
-        // ================================
+            <div class="card" style="margin-top: 24px; margin-bottom: 24px;">
+                <h2 class="text-amber" style="margin-bottom: 12px;">All Orders</h2>
+                <div style="overflow-x: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Order ID</th>
+                                <th>Table</th>
+                                <th>Items</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Waiter</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${state.orders.map(order => `
+                                <tr>
+                                    <td>${order.date}</td>
+                                    <td>#${order.id}</td>
+                                    <td>${order.tableNo}</td>
+                                    <td>${order.items}</td>
+                                    <td>$${formatCurrency(order.total)}</td>
+                                    <td><span class="status-badge ${getStatusClass(order.status)}">${order.status}</span></td>
+                                    <td>${order.waiter}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 class="text-amber" style="margin-bottom: 12px;">Waiter Performance</h2>
+                <div style="overflow-x: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>UID</th>
+                                <th>Orders</th>
+                                <th>Commission</th>
+                                <th>Tips</th>
+                                <th>Rating</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${mockUsers.waiters.map(waiter => `
+                                <tr>
+                                    <td>${waiter.name}</td>
+                                    <td>${waiter.uid}</td>
+                                    <td>24</td>
+                                    <td>$62.50</td>
+                                    <td>$45.00</td>
+                                    <td>⭐⭐⭐⭐⭐</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+`;
+        }
         render();
     </script>
 </body>

@@ -4,231 +4,204 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Greens Cafe — Menu Order System</title>
-    <link rel="stylesheet" href="main.css">
+    <title>Greens Cafe - Order Management System</title>
+    <!-- Use Tailwind CSS for rapid styling and a modern look -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom Styles to enhance the dark theme */
+        :root {
+            --color-primary: #d4a574;
+            /* Coffee/Amber color for accents */
+            --color-primary-dark: #b88b59;
+            --color-bg-dark: #1a1a1a;
+            --color-bg-light: #2d2d2d;
+            --color-text: #f5f5f5;
+        }
+
+        body {
+            background-color: var(--color-bg-dark);
+            color: var(--color-text);
+            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        /* Chalkboard-like background effect for dashboards */
+        .chalkboard-bg {
+            background-color: var(--color-bg-light);
+            background-image:
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 255, 255, .03) 2px, rgba(255, 255, 255, .03) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255, 255, 255, .03) 2px, rgba(255, 255, 255, .03) 4px);
+        }
+
+        /* Override Tailwind for primary button styling to match theme */
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: var(--color-bg-dark);
+            transition: background-color 300ms;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--color-primary-dark);
+        }
+    </style>
 </head>
-<body>
+
+<body class="m-0 p-0">
+    <!-- Main application container -->
     <div id="app"></div>
 
     <script>
-        /***********************
-         * Data & Mock Backend
-         ***********************/
+        // Menu Data
         const menuData = {
-            "Beverages": [
-                { id: 1, name: "Cappuccino", description: "Rich espresso with steamed milk foam", price: 3.5 },
-                { id: 2, name: "Americano", description: "Espresso with hot water", price: 2.75 },
-                { id: 3, name: "Iced Latte", description: "Chilled espresso with milk and ice", price: 4.0 }
+            'Main Courses': [
+                { id: 1, name: 'Grilled Chicken', description: 'Juicy grilled chicken with herbs', price: 12.99 },
+                { id: 2, name: 'Beef Burger', description: 'Classic burger with cheese and fries', price: 10.99 },
+                { id: 3, name: 'Pasta Carbonara', description: 'Creamy pasta with bacon', price: 11.99 },
+                { id: 4, name: 'Caesar Salad', description: 'Fresh romaine with parmesan', price: 8.99 },
             ],
-            "Snacks": [
-                { id: 11, name: "Garlic Bread", description: "Toasted bread with garlic butter", price: 2.5 },
-                { id: 12, name: "Veg Sandwich", description: "Fresh veggies with pesto", price: 5.0 }
+            'Beverages': [
+                { id: 5, name: 'Coca Cola', description: 'Chilled soft drink', price: 2.99 },
+                { id: 6, name: 'Fresh Orange Juice', description: 'Freshly squeezed', price: 4.99 },
+                { id: 7, name: 'Cappuccino', description: 'Italian coffee specialty', price: 5.99 },
+                { id: 8, name: 'Iced Tea', description: 'Refreshing lemon tea', price: 3.99 },
             ],
-            "Desserts": [
-                { id: 21, name: "Chocolate Brownie", description: "Warm brownie with ice-cream", price: 3.75 },
-                { id: 22, name: "Cheesecake", description: "Classic creamy slice", price: 4.25 }
-            ]
         };
 
+        // Mock Users
         const mockUsers = {
-            waiters: [ { name: 'Asha', uid: '1001234567', password: 'waiter123' }, { name: 'Ram', uid: '1009876543', password: 'waiter123' } ],
-            owners: [ { name: 'Prashant', uid: '2000000001', password: 'owner123' } ]
+            waiters: [
+                { uid: '1001234567', password: 'waiter123', name: 'John Doe', email: 'john@cafe.com' },
+                { uid: '1001234568', password: 'waiter123', name: 'Jane Smith', email: 'jane@cafe.com' },
+            ],
+            owners: [
+                { uid: '2000000001', password: 'owner123', name: 'Michael Anderson', email: 'michael@cafe.com' },
+            ],
         };
 
+        // State
         let state = {
-            view: 'landing', // 'landing' | 'roleSelect' | 'login' | 'customer' | 'waiter' | 'owner'
-            currentRole: null, // 'waiter' | 'owner' | 'customer'
+            view: 'landing',
+            currentRole: null,
             currentUser: null,
             cart: [],
             orders: [
-                { id: 501, date: '2025-11-30', tableNo: 'T3', items: 'Cappuccino x1', total: 3.50, status: 'pending', waiter: 'Asha' },
-                { id: 502, date: '2025-11-29', tableNo: 'T1', items: 'Veg Sandwich x2', total: 10.00, status: 'completed', waiter: 'Ram' }
+                { id: 1001, tableNo: 5, items: 'Grilled Chicken, Coca Cola', total: 15.98, status: 'pending', waiter: 'John Doe', date: '2024-11-30' },
+                { id: 1002, tableNo: 3, items: 'Beef Burger, Orange Juice', total: 15.98, status: 'preparing', waiter: 'Jane Smith', date: '2024-11-30' },
+                { id: 1000, tableNo: 2, items: 'Pasta Carbonara, Caesar Salad', total: 20.98, status: 'completed', waiter: 'John Doe', date: '2024-11-30' },
             ]
         };
 
-        /***********************
-         * State helpers
-         ***********************/
-        function setState(patch) {
-            state = { ...state, ...patch };
+        // Helper Functions (Identical to the first code block)
+        function setState(newState) {
+            state = { ...state, ...newState };
             render();
-            attachEventListeners(); // re-attach for inline handlers
         }
 
-        /***********************
-         * Utility functions
-         ***********************/
-        function formatCurrency(n) {
-            return n.toFixed(2);
+        function addToCart(item) {
+            const existing = state.cart.find(i => i.id === item.id);
+            if (existing) {
+                setState({ cart: state.cart.map(i => i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i) });
+            } else {
+                setState({ cart: [...state.cart, { ...item, quantity: 1 }] });
+            }
+        }
+
+        function removeFromCart(itemId) {
+            setState({ cart: state.cart.filter(i => i.id !== itemId) });
+        }
+
+        function updateQuantity(itemId, change) {
+            setState({
+                cart: state.cart.map(i => {
+                    if (i.id === itemId) {
+                        const newQty = i.quantity + change;
+                        return newQty > 0 ? { ...i, quantity: newQty } : i;
+                    }
+                    return i;
+                }).filter(i => i.quantity > 0)
+            });
         }
 
         function calculateTotal() {
-            return state.cart.reduce((s, it) => s + it.price * it.quantity, 0).toFixed(2);
+            return state.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2);
         }
 
-        function findMenuItemById(id) {
-            for (const cat of Object.values(menuData)) {
-                for (const item of cat) if (item.id === id) return item;
-            }
-            return null;
-        }
-
-        /***********************
-         * Actions: Cart & Orders
-         ***********************/
-        function addToCart(itemPayload) {
-            // itemPayload may be a plain object (from JSON string in templates)
-            const id = Number(itemPayload.id || itemPayload);
-            const menuItem = typeof itemPayload === 'object' ? itemPayload : findMenuItemById(id);
-            if (!menuItem) return alert('Item not found');
-            const existing = state.cart.find(i => i.id === menuItem.id);
-            if (existing) existing.quantity++;
-            else state.cart.push({ ...menuItem, quantity: 1 });
-            setState({ cart: state.cart });
-        }
-
-        function removeFromCart(id) {
-            state.cart = state.cart.filter(i => i.id !== id);
-            setState({ cart: state.cart });
-        }
-
-        function updateQuantity(id, delta) {
-            const it = state.cart.find(i => i.id === id);
-            if (!it) return;
-            it.quantity += delta;
-            if (it.quantity <= 0) removeFromCart(id);
-            else setState({ cart: state.cart });
-        }
-
-        function placeOrder() {
-            if (state.cart.length === 0) return alert('Add items to cart first.');
-            const newId = Math.floor(Math.random() * 900) + 1000;
-            const total = Number(calculateTotal());
-            const itemsDesc = state.cart.map(i => `${i.name} x${i.quantity}`).join(', ');
-            const order = { id: newId, date: new Date().toISOString().slice(0,10), tableNo: 'T' + (Math.floor(Math.random()*10)+1), items: itemsDesc, total, status: 'pending', waiter: state.currentUser?.name || 'Unassigned' };
-            state.orders.unshift(order);
-            state.cart = [];
-            setState({ orders: state.orders, cart: [] });
-            alert('Order placed successfully! Order ID: #' + newId);
-        }
-
-        /***********************
-         * Authentication
-         ***********************/
         function handleLogin(uid, password, role) {
-            if (role === 'waiter') {
-                const user = mockUsers.waiters.find(u => u.uid === uid && u.password === password);
-                if (user) {
-                    setState({ currentUser: user, currentRole: 'waiter', view: 'waiter' });
-                    return;
-                }
-            } else if (role === 'owner') {
-                const user = mockUsers.owners.find(u => u.uid === uid && u.password === password);
-                if (user) {
-                    setState({ currentUser: user, currentRole: 'owner', view: 'owner' });
-                    return;
-                }
+            const users = role === 'waiter' ? mockUsers.waiters : mockUsers.owners;
+            const user = users.find(u => u.uid === uid && u.password === password);
+
+            if (user) {
+                setState({ currentUser: user, currentRole: role, view: role });
+            } else {
+                alert('Invalid credentials');
             }
-            alert('Invalid credentials. Use demo credentials prefilled for testing.');
         }
 
-        /***********************
-         * Render functions (SPA-style)
-         ***********************/
+        // Render Functions
         function render() {
-            const root = document.getElementById('app');
-            if (!root) return;
-            switch(state.view) {
-                case 'landing': root.innerHTML = renderLanding(); break;
-                case 'roleSelect': root.innerHTML = renderRoleSelect(); break;
-                case 'login': root.innerHTML = renderLogin(); break;
-                case 'customer': root.innerHTML = renderCustomer(); break;
-                case 'waiter': root.innerHTML = renderWaiter(); break;
-                case 'owner': root.innerHTML = renderOwner(); break;
-                default: root.innerHTML = renderLanding();
+            const app = document.getElementById('app');
+
+            if (state.view === 'landing') {
+                app.innerHTML = renderLanding();
+            } else if (state.view === 'roleSelect') {
+                app.innerHTML = renderRoleSelect();
+            } else if (state.view === 'login') {
+                app.innerHTML = renderLogin();
+            } else if (state.view === 'customer') {
+                app.innerHTML = renderCustomer();
+            } else if (state.view === 'waiter') {
+                app.innerHTML = renderWaiter();
+            } else if (state.view === 'owner') {
+                app.innerHTML = renderOwner();
             }
+
+            attachEventListeners();
         }
+
+        // --- ENHANCED RENDER FUNCTIONS ---
 
         function renderLanding() {
             return `
-                <div class="landing-page">
-                    <div class="cafe-logo">
-                        <img src="Greenlogo.png" alt="logo">
-                    </div>
-                    <div class="landing-content card">
-                        <h1 class="cafe-name">Greens Cafe</h1>
-                        <p class="cafe-tagline">"Where Every Sip Tells a Story"</p>
-                        <p class="cafe-description">
-                            Welcome to Greens Cafe, your perfect destination for exceptional coffee, delicious food, and warm
-                            hospitality. Established in 2025, we serve the community with passion and dedication.
-                        </p>
-
-                        <div class="owner-info">
-                            <h3>🏢 About Our Establishment & Features ⤵️</h3>
-                            <div class="owner-details">
-                                <div class="owner-detail-item">
-                                    <strong>Owner:</strong>
-                                    <span>Prashant Shrestha</span>
-                                </div>
-                                <div class="owner-detail-item">
-                                    <strong>Co-Owner:</strong>
-                                    <span>Lana Lodes</span>
-                                </div>
-                                <div class="owner-detail-item">
-                                    <strong>Restaurant Code:</strong>
-                                    <span>MC-0484</span>
-                                </div>
-                                <div class="owner-detail-item">
-                                    <strong>Contact:</strong>
-                                    <span>+977-9705397845</span>
-                                </div>
-                                <div class="owner-detail-item">
-                                    <strong>Location:</strong>
-                                    <span>Manakamana college side, Birtamode Jhapa</span>
-                                </div>
-                                <div class="owner-detail-item">
-                                    <strong>Operating Hours:</strong>
-                                    <span>7:00 AM - 10:00 PM</span>
-                                </div>
+                <div class="min-h-screen chalkboard-bg flex flex-col items-center justify-center p-8">
+                    <div class="max-w-4xl mx-auto text-center animate-fadeIn">
+                        <div class="w-24 h-24 sm:w-36 sm:h-36 bg-amber-700/50 border-4 border-amber-500 rounded-full flex items-center justify-center text-6xl sm:text-8xl mb-8 mx-auto shadow-2xl">☕</div>
+                        <h1 class="text-6xl sm:text-7xl font-bold text-amber-400 mb-4 font-serif italic" style="text-shadow: 0 0 10px rgba(212, 165, 116, 0.5);">Greens Cafe</h1>
+                        <p class="text-xl sm:text-2xl text-gray-400 italic mb-10">"Where Every Sip Tells a Story"</p>
+                        
+                        <div class="bg-gray-800/70 border-2 border-amber-600/50 rounded-xl p-8 shadow-xl mb-12">
+                            <h3 class="text-3xl font-bold text-amber-400 mb-6 border-b border-gray-600 pb-3">About Our Establishment</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6 text-left text-gray-300 text-lg">
+                                <div><strong class="text-amber-500">Owner:</strong> Michael Anderson</div>
+                                <div><strong class="text-amber-500">Co-Owner:</strong> Sarah Anderson</div>
+                                <div><strong class="text-amber-500">Contact:</strong> +1 (555) 123-4567</div>
+                                <div><strong class="text-amber-500">Location:</strong> 123 Coffee Street</div>
+                                <div><strong class="text-amber-500">Hours:</strong> 7:00 AM - 10:00 PM</div>
+                                <div><strong class="text-amber-500">Code:</strong> MC-2456</div>
                             </div>
                         </div>
 
-                        <div class="facilities-grid">
-                            <div class="facility-card">
-                                <div class="facility-icon">🌐</div>
-                                <h4>Free WiFi</h4>
-                                <p>High-speed internet for all customers</p>
-                            </div>
-                            <div class="facility-card">
-                                <div class="facility-icon">🅿️</div>
-                                <h4>Parking</h4>
-                                <p>Ample parking space available</p>
-                            </div>
-                            <div class="facility-card">
-                                <div class="facility-icon">❄️</div>
-                                <h4>AC Dining</h4>
-                                <p>Comfortable air-conditioned seating</p>
-                            </div>
-                            <div class="facility-card">
-                                <div class="facility-icon">🎵</div>
-                                <h4>Live Music</h4>
-                                <p>Weekend live performances</p>
-                            </div>
-                            <div class="facility-card">
-                                <div class="facility-icon">🌱</div>
-                                <h4>Organic Options</h4>
-                                <p>Fresh, locally sourced ingredients</p>
-                            </div>
-                            <div class="facility-card">
-                                <div class="facility-icon">👶</div>
-                                <h4>Family Friendly</h4>
-                                <p>Kids menu and play area</p>
-                            </div>
-                        </div>
-
-                        <div style="margin-top:20px; text-align:center;">
-                            <button class="btn-amber" onclick="setState({view: 'roleSelect'})">Select Role & Continue</button>
-                        </div>
+                        <button onclick="setState({view: 'roleSelect'})" class="btn-primary px-12 py-4 rounded-full text-xl font-semibold shadow-2xl tracking-wider">
+                            Enter Cafe →
+                        </button>
                     </div>
                 </div>
             `;
@@ -236,24 +209,38 @@
 
         function renderRoleSelect() {
             return `
-                <div class="role-selection-section min-h-screen">
-                    <div class="container">
-                        <h2>Select Your Role</h2>
-                        <div class="role-selection">
-                            <div class="role-card">
-                                <h2>👤 Customer</h2>
-                                <p>Browse menu and place orders</p>
-                                <button onclick="setState({currentRole: 'customer', view: 'customer'})">Continue as Customer</button>
+                <div class="min-h-screen chalkboard-bg flex items-center justify-center p-8">
+                    <div class="max-w-5xl w-full">
+                        <button onclick="setState({view: 'landing'})" class="text-amber-400 mb-10 hover:text-amber-300 transition-colors">
+                            ← Back to Home
+                        </button>
+                        
+                        <h2 class="text-5xl font-bold text-center text-amber-400 mb-12" style="text-shadow: 0 0 8px rgba(212, 165, 116, 0.4);">Select Your Role</h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <div class="bg-gray-800/70 border-2 border-amber-600/50 rounded-2xl p-8 text-center hover:bg-gray-700/70 transition-all cursor-pointer shadow-lg" onclick="setState({view: 'customer'})">
+                                <div class="text-7xl mb-4 text-amber-400">👤</div>
+                                <h3 class="text-2xl font-bold text-white mb-2">Customer</h3>
+                                <p class="text-gray-400 mb-6">Browse menu and order</p>
+                                <button class="btn-primary px-6 py-2 rounded-lg">
+                                    Continue
+                                </button>
                             </div>
-                            <div class="role-card">
-                                <h2>🍽️ Waiter</h2>
-                                <p>Manage customer orders</p>
-                                <button onclick="setState({currentRole: 'waiter', view: 'login'})">Login as Waiter</button>
+                            <div class="bg-gray-800/70 border-2 border-amber-600/50 rounded-2xl p-8 text-center hover:bg-gray-700/70 transition-all cursor-pointer shadow-lg" onclick="setState({currentRole: 'waiter', view: 'login'})">
+                                <div class="text-7xl mb-4 text-amber-400">🍽️</div>
+                                <h3 class="text-2xl font-bold text-white mb-2">Waiter</h3>
+                                <p class="text-gray-400 mb-6">Manage orders</p>
+                                <button class="btn-primary px-6 py-2 rounded-lg">
+                                    Continue
+                                </button>
                             </div>
-                            <div class="role-card">
-                                <h2>👔 Owner</h2>
-                                <p>View all orders and analytics</p>
-                                <button onclick="setState({currentRole: 'owner', view: 'login'})">Login as Owner</button>
+                            <div class="bg-gray-800/70 border-2 border-amber-600/50 rounded-2xl p-8 text-center hover:bg-gray-700/70 transition-all cursor-pointer shadow-lg" onclick="setState({currentRole: 'owner', view: 'login'})">
+                                <div class="text-7xl mb-4 text-amber-400">👔</div>
+                                <h3 class="text-2xl font-bold text-white mb-2">Owner</h3>
+                                <p class="text-gray-400 mb-6">View analytics</p>
+                                <button class="btn-primary px-6 py-2 rounded-lg">
+                                    Continue
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -262,25 +249,39 @@
         }
 
         function renderLogin() {
-            const preUid = state.currentRole === 'waiter' ? (mockUsers.waiters[0].uid) : (mockUsers.owners[0].uid);
-            const prePass = state.currentRole === 'waiter' ? (mockUsers.waiters[0].password) : (mockUsers.owners[0].password);
-            const title = state.currentRole === 'waiter' ? 'Waiter' : 'Owner';
             return `
-                <div class="min-h-screen bg-gradient-to-br" style="padding:48px; display:flex; align-items:center; justify-content:center;">
-                    <div class="card" style="max-width:480px; width:100%;">
-                        <button onclick="setState({view: 'roleSelect'})" style="background:none; border:none; color:#fff; margin-bottom:12px; cursor:pointer;">← Back</button>
-                        <h2 style="text-align:center; font-size:28px; color:#d4a574; margin-bottom:18px;">${title} Login</h2>
-                        <div style="display:flex; flex-direction:column; gap:16px;">
+                <div class="min-h-screen chalkboard-bg flex items-center justify-center p-8">
+                    <div class="bg-gray-800/90 border-2 border-amber-600/50 rounded-xl p-10 max-w-md w-full shadow-2xl">
+                        <button onclick="setState({view: 'roleSelect'})" class="text-amber-400 mb-8 hover:text-amber-300">
+                            ← Back
+                        </button>
+                        
+                        <h2 class="text-3xl font-bold text-amber-400 mb-8 text-center">
+                            ${state.currentRole === 'waiter' ? 'Waiter' : 'Owner'} Login
+                        </h2>
+                        
+                        <div class="space-y-6">
                             <div>
-                                <label style="display:block; color:#fff; margin-bottom:6px;">User ID (UID)</label>
-                                <input id="loginUid" type="text" value="${preUid}" style="width:100%; background:rgba(255,255,255,0.08); color:#fff; padding:10px; border-radius:8px; border:none;" />
+                                <label class="block text-gray-300 mb-2 font-semibold">User ID (UID)</label>
+                                <input id="loginUid" type="text" placeholder="e.g., 1001234567" 
+                                    value="${state.currentRole === 'waiter' ? '1001234567' : '2000000001'}"
+                                    class="w-full bg-gray-700 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-400 border border-gray-600">
                             </div>
+                            
                             <div>
-                                <label style="display:block; color:#fff; margin-bottom:6px;">Password</label>
-                                <input id="loginPassword" type="password" value="${prePass}" style="width:100%; background:rgba(255,255,255,0.08); color:#fff; padding:10px; border-radius:8px; border:none;" />
+                                <label class="block text-gray-300 mb-2 font-semibold">Password</label>
+                                <input id="loginPassword" type="password" 
+                                    value="${state.currentRole === 'waiter' ? 'waiter123' : 'owner123'}"
+                                    class="w-full bg-gray-700 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-400 border border-gray-600">
                             </div>
-                            <button class="btn-amber" onclick="window.doLogin()">Login</button>
-                            <p style="text-align:center; color:#bbb; font-size:13px;">Demo credentials are pre-filled for testing</p>
+                            
+                            <button onclick="doLogin()" class="btn-primary w-full py-3 rounded-lg font-semibold shadow-md">
+                                Login
+                            </button>
+                            
+                            <p class="text-center text-gray-500 text-sm">
+                                Demo credentials are pre-filled for testing
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -290,28 +291,30 @@
         function renderCustomer() {
             const total = calculateTotal();
             return `
-                <div class="min-h-screen" style="padding:32px;">
-                    <div class="container">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-                            <h1 style="font-size:32px;" class="text-amber">Menu</h1>
-                            <div>
-                                <button class="btn-amber" onclick="setState({view: 'roleSelect', cart: []})">Exit</button>
-                            </div>
+                <div class="min-h-screen chalkboard-bg p-8">
+                    <div class="max-w-7xl mx-auto">
+                        <div class="flex justify-between items-center mb-10">
+                            <h1 class="text-4xl font-bold text-amber-400">Greens Cafe Menu</h1>
+                            <button onclick="setState({view: 'roleSelect', cart: []})" class="bg-red-700 text-white px-6 py-2 rounded-lg hover:bg-red-600 transition-colors shadow-md">
+                                Exit
+                            </button>
                         </div>
 
-                        <div style="display:grid; grid-template-columns:2fr 1fr; gap:20px;">
-                            <div>
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                            <div class="lg:col-span-2 space-y-10">
                                 ${Object.entries(menuData).map(([category, items]) => `
-                                    <div style="margin-bottom:18px;">
-                                        <h2 style="font-size:20px; color:#d4a574; margin-bottom:8px;">${category}</h2>
-                                        <div class="grid-2">
+                                    <div class="animate-fadeIn">
+                                        <h2 class="text-3xl font-bold text-amber-400 mb-6 border-b-2 border-amber-600 pb-2">${category}</h2>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                             ${items.map(item => `
-                                                <div class="card">
-                                                    <h3 style="font-size:18px; margin-bottom:6px;">${item.name}</h3>
-                                                    <p class="muted" style="font-size:13px; margin-bottom:8px;">${item.description}</p>
-                                                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                                                        <span class="text-amber" style="font-size:18px; font-weight:bold;">$${formatCurrency(item.price)}</span>
-                                                        <button class="btn-amber" onclick='addToCart(${JSON.stringify(item)})'>+ Add</button>
+                                                <div class="bg-gray-800/70 border border-amber-600/40 rounded-xl p-6 hover:bg-gray-700/70 transition-all shadow-lg">
+                                                    <h3 class="text-xl font-bold text-white mb-2">${item.name}</h3>
+                                                    <p class="text-gray-400 text-sm h-12">${item.description}</p>
+                                                    <div class="flex justify-between items-center mt-4">
+                                                        <span class="text-2xl font-bold text-amber-400">$${item.price}</span>
+                                                        <button onclick="addToCart(${JSON.stringify(item).replace(/"/g, '&quot;')})" class="btn-primary px-4 py-2 rounded-full text-sm font-semibold">
+                                                            + Add to Order
+                                                        </button>
                                                     </div>
                                                 </div>
                                             `).join('')}
@@ -320,38 +323,41 @@
                                 `).join('')}
                             </div>
 
-                            <div class="card" style="position:sticky; top:20px; align-self:start;">
-                                <h2 style="font-size:18px; margin-bottom:12px;" class="text-amber">🛒 Your Order</h2>
+                            <div class="bg-gray-800 border-2 border-amber-600/50 rounded-xl p-6 h-fit sticky top-4 shadow-2xl">
+                                <h2 class="text-2xl font-bold text-amber-400 mb-6 border-b border-gray-700 pb-3">🛒 Your Order</h2>
+                                
                                 ${state.cart.length === 0 ? `
-                                    <p class="muted" style="padding:24px; text-align:center;">No items added yet</p>
+                                    <p class="text-gray-500 text-center py-12 italic">Your cart is empty. Start adding delicious items!</p>
                                 ` : `
-                                    <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:12px;">
-                                        ${state.cart.map(it => `
-                                            <div style="background:rgba(255,255,255,0.02); padding:10px; border-radius:8px;">
-                                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                                                    <strong>${it.name}</strong>
-                                                    <button onclick="removeFromCart(${it.id})" style="background:none; border:none; color:#ff6b6b; cursor:pointer;">✕</button>
+                                    <div class="space-y-4 mb-6">
+                                        ${state.cart.map(item => `
+                                            <div class="bg-gray-700/50 rounded-lg p-4">
+                                                <div class="flex justify-between items-center mb-2">
+                                                    <span class="text-white font-semibold">${item.name}</span>
+                                                    <button onclick="removeFromCart(${item.id})" class="text-red-400 hover:text-red-300 transition-colors text-lg" title="Remove Item">✕</button>
                                                 </div>
-                                                <div style="display:flex; justify-content:space-between; align-items:center;">
-                                                    <div style="display:flex; gap:8px; align-items:center;">
-                                                        <button onclick="updateQuantity(${it.id}, -1)" style="padding:6px; border-radius:6px; background:rgba(255,255,255,0.04); border:none; cursor:pointer;">-</button>
-                                                        <span>${it.quantity}</span>
-                                                        <button onclick="updateQuantity(${it.id}, 1)" style="padding:6px; border-radius:6px; background:rgba(255,255,255,0.04); border:none; cursor:pointer;">+</button>
+                                                <div class="flex justify-between items-center">
+                                                    <div class="flex items-center gap-2">
+                                                        <button onclick="updateQuantity(${item.id}, -1)" class="bg-gray-600 text-white px-3 py-1 rounded hover:bg-gray-500">-</button>
+                                                        <span class="text-white w-4 text-center font-bold">${item.quantity}</span>
+                                                        <button onclick="updateQuantity(${item.id}, 1)" class="bg-gray-600 text-white px-3 py-1 rounded hover:bg-gray-500">+</button>
                                                     </div>
-                                                    <div style="font-weight:bold;">$${formatCurrency(it.price * it.quantity)}</div>
+                                                    <span class="text-amber-400 font-bold text-lg">$${(item.price * item.quantity).toFixed(2)}</span>
                                                 </div>
                                             </div>
                                         `).join('')}
                                     </div>
 
-                                    <div style="border-top:1px solid rgba(255,255,255,0.06); padding-top:12px; margin-bottom:12px;">
-                                        <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:18px;">
-                                            <span>Total:</span>
-                                            <span class="text-amber">$${total}</span>
+                                    <div class="border-t border-gray-600 pt-4 mb-6">
+                                        <div class="flex justify-between text-2xl font-extrabold">
+                                            <span class="text-white">TOTAL:</span>
+                                            <span class="text-amber-400">$${total}</span>
                                         </div>
                                     </div>
 
-                                    <button class="btn-amber" style="width:100%;" onclick="placeOrder()">Place Order</button>
+                                    <button onclick="placeOrder()" class="btn-primary w-full py-3 rounded-lg font-semibold shadow-xl">
+                                        Confirm & Place Order
+                                    </button>
                                 `}
                             </div>
                         </div>
@@ -360,40 +366,47 @@
             `;
         }
 
+
         function renderWaiter() {
             const waiterOrders = state.orders.filter(o => o.waiter === state.currentUser?.name);
             return `
-                <div class="min-h-screen" style="padding:28px;">
-                    <div class="container">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
-                            <h1 class="text-amber" style="font-size:28px;">Waiter Dashboard</h1>
-                            <div style="display:flex; gap:12px; align-items:center;">
-                                <span style="background:rgba(255,255,255,0.04); padding:8px 12px; border-radius:8px;">Welcome, ${state.currentUser?.name || ''}</span>
-                                <button class="btn-amber" onclick="setState({view: 'roleSelect', currentUser: null})">Logout</button>
+                <div class="min-h-screen chalkboard-bg p-8">
+                    <div class="max-w-7xl mx-auto">
+                        <div class="flex justify-between items-center mb-10 pb-4 border-b border-gray-700">
+                            <h1 class="text-4xl font-bold text-amber-400">Waiter Dashboard</h1>
+                            <div class="flex gap-4 items-center">
+                                <span class="text-amber-400 bg-gray-700/50 px-4 py-2 rounded-full font-semibold">Welcome, ${state.currentUser?.name}</span>
+                                <button onclick="setState({view: 'roleSelect', currentUser: null})" class="bg-red-700 text-white px-6 py-2 rounded-lg hover:bg-red-600 transition-colors">
+                                    Logout
+                                </button>
                             </div>
                         </div>
 
-                        <div class="card" style="margin-bottom:18px;">
-                            <h2 class="text-amber" style="margin-bottom:8px;">Current Orders</h2>
-                            <div style="overflow-x:auto;">
-                                <table style="width:100%; border-collapse:collapse;">
+                        <div class="bg-gray-800/70 border border-amber-600/50 rounded-xl p-6 mb-8 shadow-xl">
+                            <h2 class="text-2xl font-bold text-amber-400 mb-6">My Assigned Orders (${waiterOrders.length})</h2>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left">
                                     <thead>
-                                        <tr style="color:#d4a574; border-bottom:1px solid rgba(255,255,255,0.06); text-align:left;">
-                                            <th style="padding:10px;">Table</th>
-                                            <th style="padding:10px;">Order ID</th>
-                                            <th style="padding:10px;">Items</th>
-                                            <th style="padding:10px;">Total</th>
-                                            <th style="padding:10px;">Status</th>
+                                        <tr class="text-amber-400 border-b border-amber-600/50">
+                                            <th class="p-4 text-lg">Table</th>
+                                            <th class="p-4 text-lg">Order ID</th>
+                                            <th class="p-4 text-lg">Items</th>
+                                            <th class="p-4 text-lg">Total</th>
+                                            <th class="p-4 text-lg">Status</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody class="divide-y divide-gray-700">
                                         ${waiterOrders.map(order => `
-                                            <tr style="border-bottom:1px solid rgba(255,255,255,0.03); color:#fff;">
-                                                <td style="padding:10px;">${order.tableNo}</td>
-                                                <td style="padding:10px;">#${order.id}</td>
-                                                <td style="padding:10px;">${order.items}</td>
-                                                <td style="padding:10px;">$${formatCurrency(order.total)}</td>
-                                                <td style="padding:10px;"><span style="padding:6px 10px; border-radius:999px; background:${order.status==='pending'? '#f6c84b': order.status==='preparing' ? '#4ea3ff' : '#3cd26b'}; color:#1a1a1a;">${order.status}</span></td>
+                                            <tr class="text-gray-300 hover:bg-gray-700/50 transition-colors">
+                                                <td class="p-4 font-bold text-white">${order.tableNo}</td>
+                                                <td class="p-4">#${order.id}</td>
+                                                <td class="p-4 text-sm">${order.items}</td>
+                                                <td class="p-4 text-amber-300">$${order.total}</td>
+                                                <td class="p-4">
+                                                    <span class="px-3 py-1 rounded-full text-xs font-semibold ${order.status === 'pending' ? 'bg-yellow-600 text-yellow-100' :
+                    order.status === 'preparing' ? 'bg-blue-600 text-blue-100' : 'bg-green-600 text-green-100'
+                }">${order.status.toUpperCase()}</span>
+                                                </td>
                                             </tr>
                                         `).join('')}
                                     </tbody>
@@ -401,21 +414,21 @@
                             </div>
                         </div>
 
-                        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px;">
-                            <div class="card">
-                                <div style="font-size:28px; margin-bottom:6px;">💰</div>
-                                <h3 class="muted">Total Earnings</h3>
-                                <p style="font-size:20px; font-weight:bold;">$203.50</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="bg-gray-800/70 border border-amber-600/50 rounded-xl p-6 text-center shadow-lg">
+                                <div class="text-5xl mb-3 text-amber-400">💰</div>
+                                <h3 class="text-lg text-gray-400 mb-1">Total Earnings</h3>
+                                <p class="text-3xl font-bold text-white">$203.50</p>
                             </div>
-                            <div class="card">
-                                <div style="font-size:28px; margin-bottom:6px;">📈</div>
-                                <h3 class="muted">Commission</h3>
-                                <p style="font-size:20px; font-weight:bold;">$125.50</p>
+                            <div class="bg-gray-800/70 border border-amber-600/50 rounded-xl p-6 text-center shadow-lg">
+                                <div class="text-5xl mb-3 text-amber-400">📈</div>
+                                <h3 class="text-lg text-gray-400 mb-1">Commission</h3>
+                                <p class="text-3xl font-bold text-white">$125.50</p>
                             </div>
-                            <div class="card">
-                                <div style="font-size:28px; margin-bottom:6px;">⭐</div>
-                                <h3 class="muted">Tips Received</h3>
-                                <p style="font-size:20px; font-weight:bold;">$78.00</p>
+                            <div class="bg-gray-800/70 border border-amber-600/50 rounded-xl p-6 text-center shadow-lg">
+                                <div class="text-5xl mb-3 text-amber-400">⭐</div>
+                                <h3 class="text-lg text-gray-400 mb-1">Tips Received</h3>
+                                <p class="text-3xl font-bold text-white">$78.00</p>
                             </div>
                         </div>
                     </div>
@@ -425,103 +438,127 @@
 
         function renderOwner() {
             return `
-                <div class="min-h-screen" style="padding:28px;">
-                    <div class="container">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
-                            <h1 class="text-amber" style="font-size:28px;">Owner Dashboard</h1>
-                            <button class="btn-amber" onclick="setState({view: 'roleSelect', currentUser: null})">Logout</button>
+                <div class="min-h-screen chalkboard-bg p-8">
+                    <div class="max-w-7xl mx-auto">
+                        <div class="flex justify-between items-center mb-10 pb-4 border-b border-gray-700">
+                            <h1 class="text-4xl font-bold text-amber-400">Owner Dashboard</h1>
+                            <button onclick="setState({view: 'roleSelect', currentUser: null})" class="bg-red-700 text-white px-6 py-2 rounded-lg hover:bg-red-600 transition-colors">
+                                Logout
+                            </button>
                         </div>
 
-                        <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:16px;">
-                            <div class="card"><h3 class="muted">Total Sales</h3><p style="font-size:20px; font-weight:bold;">$1,245.50</p></div>
-                            <div class="card"><h3 class="muted">Total Orders</h3><p style="font-size:20px; font-weight:bold;">48</p></div>
-                            <div class="card"><h3 class="muted">Net Profit</h3><p style="font-size:20px; font-weight:bold;">$622.25</p></div>
-                            <div class="card"><h3 class="muted">Avg Order</h3><p style="font-size:20px; font-weight:bold;">$25.95</p></div>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+                            <div class="bg-gray-800/70 border border-amber-700/50 rounded-xl p-6 text-center shadow-lg">
+                                <h3 class="text-gray-400 mb-2">Total Sales</h3>
+                                <p class="text-3xl font-bold text-amber-300">$1,245.50</p>
+                            </div>
+                            <div class="bg-gray-800/70 border border-amber-700/50 rounded-xl p-6 text-center shadow-lg">
+                                <h3 class="text-gray-400 mb-2">Total Orders</h3>
+                                <p class="text-3xl font-bold text-amber-300">48</p>
+                            </div>
+                            <div class="bg-gray-800/70 border border-amber-700/50 rounded-xl p-6 text-center shadow-lg">
+                                <h3 class="text-gray-400 mb-2">Net Profit</h3>
+                                <p class="text-3xl font-bold text-green-400">$622.25</p>
+                            </div>
+                            <div class="bg-gray-800/70 border border-amber-700/50 rounded-xl p-6 text-center shadow-lg">
+                                <h3 class="text-gray-400 mb-2">Avg Order</h3>
+                                <p class="text-3xl font-bold text-amber-300">$25.95</p>
+                            </div>
                         </div>
 
-                        <div class="card" style="margin-bottom:16px;">
-                            <h2 class="text-amber">All Orders</h2>
-                            <table style="width:100%; margin-top:8px; border-collapse:collapse;">
-                                <thead>
-                                    <tr style="color:#d4a574; border-bottom:1px solid rgba(255,255,255,0.06); text-align:left;">
-                                        <th style="padding:10px;">Date</th>
-                                        <th style="padding:10px;">Order ID</th>
-                                        <th style="padding:10px;">Table</th>
-                                        <th style="padding:10px;">Items</th>
-                                        <th style="padding:10px;">Total</th>
-                                        <th style="padding:10px;">Status</th>
-                                        <th style="padding:10px;">Waiter</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${state.orders.map(order => `
-                                        <tr style="border-bottom:1px solid rgba(255,255,255,0.03); color:#fff;">
-                                            <td style="padding:10px;">${order.date}</td>
-                                            <td style="padding:10px;">#${order.id}</td>
-                                            <td style="padding:10px;">${order.tableNo}</td>
-                                            <td style="padding:10px;">${order.items}</td>
-                                            <td style="padding:10px;">$${formatCurrency(order.total)}</td>
-                                            <td style="padding:10px;"><span style="padding:6px 10px; border-radius:999px; background:${order.status==='pending'? '#f6c84b': order.status==='preparing' ? '#4ea3ff' : '#3cd26b'}; color:#1a1a1a;">${order.status}</span></td>
-                                            <td style="padding:10px;">${order.waiter}</td>
+                        <div class="bg-gray-800/70 border border-amber-600/50 rounded-xl p-6 mb-8 shadow-xl">
+                            <h2 class="text-2xl font-bold text-amber-400 mb-6">All Orders History</h2>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left">
+                                    <thead>
+                                        <tr class="text-amber-400 border-b border-amber-600/50">
+                                            <th class="p-4">Date</th>
+                                            <th class="p-4">Order ID</th>
+                                            <th class="p-4">Table</th>
+                                            <th class="p-4">Items</th>
+                                            <th class="p-4">Total</th>
+                                            <th class="p-4">Status</th>
+                                            <th class="p-4">Waiter</th>
                                         </tr>
-                                    `).join('')}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-700">
+                                        ${state.orders.map(order => `
+                                            <tr class="text-gray-300 hover:bg-gray-700/50 transition-colors">
+                                                <td class="p-4 text-sm">${order.date}</td>
+                                                <td class="p-4">#${order.id}</td>
+                                                <td class="p-4 font-bold text-white">${order.tableNo}</td>
+                                                <td class="p-4 text-sm">${order.items}</td>
+                                                <td class="p-4 text-amber-300">$${order.total}</td>
+                                                <td class="p-4">
+                                                    <span class="px-3 py-1 rounded-full text-xs font-semibold ${order.status === 'pending' ? 'bg-yellow-600 text-yellow-100' :
+                    order.status === 'preparing' ? 'bg-blue-600 text-blue-100' : 'bg-green-600 text-green-100'
+                }">${order.status.toUpperCase()}</span>
+                                                </td>
+                                                <td class="p-4">${order.waiter}</td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
 
-                        <div class="card">
-                            <h2 class="text-amber">Waiter Performance</h2>
-                            <table style="width:100%; margin-top:8px; border-collapse:collapse;">
-                                <thead>
-                                    <tr style="color:#d4a574; border-bottom:1px solid rgba(255,255,255,0.06); text-align:left;">
-                                        <th style="padding:10px;">Name</th>
-                                        <th style="padding:10px;">UID</th>
-                                        <th style="padding:10px;">Orders</th>
-                                        <th style="padding:10px;">Commission</th>
-                                        <th style="padding:10px;">Tips</th>
-                                        <th style="padding:10px;">Rating</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${mockUsers.waiters.map(w => `
-                                        <tr style="border-bottom:1px solid rgba(255,255,255,0.03); color:#fff;">
-                                            <td style="padding:10px;">${w.name}</td>
-                                            <td style="padding:10px;">${w.uid}</td>
-                                            <td style="padding:10px;">24</td>
-                                            <td style="padding:10px;">$62.50</td>
-                                            <td style="padding:10px;">$45.00</td>
-                                            <td style="padding:10px;">⭐⭐⭐⭐⭐</td>
+                        <div class="bg-gray-800/70 border border-amber-600/50 rounded-xl p-6 shadow-xl">
+                            <h2 class="text-2xl font-bold text-amber-400 mb-6">Waiter Performance</h2>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left">
+                                    <thead>
+                                        <tr class="text-amber-400 border-b border-amber-600/50">
+                                            <th class="p-4">Name</th>
+                                            <th class="p-4">UID</th>
+                                            <th class="p-4">Orders</th>
+                                            <th class="p-4">Commission</th>
+                                            <th class="p-4">Tips</th>
+                                            <th class="p-4">Rating</th>
                                         </tr>
-                                    `).join('')}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-700">
+                                        ${mockUsers.waiters.map(waiter => `
+                                            <tr class="text-gray-300 hover:bg-gray-700/50 transition-colors">
+                                                <td class="p-4">${waiter.name}</td>
+                                                <td class="p-4">${waiter.uid}</td>
+                                                <td class="p-4">24</td>
+                                                <td class="p-4">$62.50</td>
+                                                <td class="p-4">$45.00</td>
+                                                <td class="p-4 text-yellow-400">⭐⭐⭐⭐⭐</td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             `;
         }
 
-        /***********************
-         * Event wiring for inline handlers
-         ***********************/
+        // --- END ENHANCED RENDER FUNCTIONS ---
+
+
         function attachEventListeners() {
+            // Global functions needed for onclick handlers
             window.setState = setState;
             window.addToCart = addToCart;
             window.removeFromCart = removeFromCart;
             window.updateQuantity = updateQuantity;
-            window.placeOrder = placeOrder;
-            window.handleLogin = handleLogin;
-            window.doLogin = function() {
-                const uid = document.getElementById('loginUid')?.value;
-                const password = document.getElementById('loginPassword')?.value;
+            window.doLogin = function () {
+                const uid = document.getElementById('loginUid').value;
+                const password = document.getElementById('loginPassword').value;
                 handleLogin(uid, password, state.currentRole);
+            };
+            window.placeOrder = function () {
+                alert('Order placed successfully! Total: $' + calculateTotal());
+                // In a real app, this would send data to a server
+                setState({ cart: [] });
             };
         }
 
-        // Initial render + attach
+        // Initial render
         render();
-        attachEventListeners();
-
     </script>
 </body>
 

@@ -11,6 +11,10 @@ body {
     scroll-behavior: smooth;
 }
 
+.min-h-screen {
+    min-height: 100vh;
+}
+
 /* Landing Page / Information Section */
 .landing-page {
     min-height: 100vh;
@@ -239,4 +243,62 @@ body {
 
 .role-card button:hover {
     background: #c49563;
+}
+
+/* Shared UI */
+.btn-amber {
+    background: #d4a574;
+    color: #1a1a1a;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.04);
+    padding: 18px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.text-amber {
+    color: #d4a574;
+}
+
+.muted {
+    color: #bbb;
+}
+
+/* Simple hidden utility */
+.hidden {
+    display: none;
+}
+
+/* Responsive tweaks */
+@media (max-width: 900px) {
+    .grid-3 {
+        grid-template-columns: 1fr;
+    }
+
+    .grid-2 {
+        grid-template-columns: 1fr;
+    }
+
+    .owner-details {
+        grid-template-columns: 1fr;
+    }
 }

@@ -5,108 +5,984 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu Order System</title>
-    <link rel="stylesheet" href="main.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: #1a1a1a;
+            color: #f5f5f5;
+            scroll-behavior: smooth;
+        }
+
+        .min-h-screen {
+            min-height: 100vh;
+        }
+
+        /* Landing Page */
+        .landing-page {
+            min-height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%23654321" width="1200" height="800"/><circle cx="600" cy="400" r="300" fill="%23543210" opacity="0.3"/></svg>') center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        .cafe-logo {
+            width: 150px;
+            height: 150px;
+            background: #d4a574;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(212, 165, 116, 0.3);
+            overflow: hidden;
+        }
+
+        .cafe-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .landing-content {
+            max-width: 900px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 50px;
+            border-radius: 20px;
+            border: 2px solid rgba(212, 165, 116, 0.3);
+        }
+
+        .cafe-name {
+            font-size: 64px;
+            color: #d4a574;
+            margin-bottom: 10px;
+            font-family: 'Brush Script MT', cursive;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .cafe-tagline {
+            font-size: 20px;
+            color: #bbb;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+
+        .cafe-description {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #ddd;
+            margin-bottom: 30px;
+            text-align: justify;
+        }
+
+        .owner-info {
+            background: rgba(212, 165, 116, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border-left: 4px solid #d4a574;
+            text-align: left;
+        }
+
+        .owner-info h3 {
+            color: #d4a574;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .owner-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .owner-detail-item {
+            padding: 10px;
+        }
+
+        .owner-detail-item strong {
+            color: #d4a574;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .facilities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .facility-card {
+            background: rgba(212, 165, 116, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(212, 165, 116, 0.3);
+        }
+
+        .facility-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .facility-card h4 {
+            color: #d4a574;
+            margin-bottom: 10px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .container h2 {
+            text-align: center;
+            color: #d4a574;
+            font-size: 36px;
+            margin-bottom: 40px;
+            font-family: 'Brush Script MT', cursive;
+        }
+
+        /* Role Selection */
+        .role-selection-section {
+            min-height: 100vh;
+            background: #1a1a1a;
+            padding: 60px 20px;
+        }
+
+        .role-selection {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            padding: 40px 0;
+        }
+
+        .role-card {
+            background: #2d2d2d;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            width: 280px;
+            border: 2px solid #d4a574;
+        }
+
+        .role-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(212, 165, 116, 0.3);
+        }
+
+        .role-card h2 {
+            color: #d4a574;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .role-card p {
+            color: #bbb;
+            margin-bottom: 20px;
+        }
+
+        .role-card button {
+            background: #d4a574;
+            color: #1a1a1a;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .role-card button:hover {
+            background: #c49563;
+        }
+
+        /* Shared UI */
+        .btn-amber {
+            background: #d4a574;
+            color: #1a1a1a;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .btn-amber:hover {
+            background: #c49563;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.04);
+            padding: 18px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .text-amber {
+            color: #d4a574;
+        }
+
+        .muted {
+            color: #bbb;
+        }
+
+        input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            font-family: inherit;
+        }
+
+        input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            color: #d4a574;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        tbody tr {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            color: #fff;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 999px;
+            color: #1a1a1a;
+            font-weight: bold;
+        }
+
+        .status-pending {
+            background: #f6c84b;
+        }
+
+        .status-preparing {
+            background: #4ea3ff;
+        }
+
+        .status-completed {
+            background: #3cd26b;
+        }
+
+        .cart-item {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .cart-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .qty-btn {
+            padding: 6px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.04);
+            border: none;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .qty-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .remove-btn {
+            background: none;
+            border: none;
+            color: #ff6b6b;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .remove-btn:hover {
+            color: #ff5252;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .grid-4 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .owner-details {
+                grid-template-columns: 1fr;
+            }
+
+            .cafe-name {
+                font-size: 48px;
+            }
+
+            table {
+                font-size: 14px;
+            }
+
+            th,
+            td {
+                padding: 8px;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <script src="main.js"></script>
-    <!-- Landing Page with Restaurant Info -->
-    <div id="landingPage" class="landing-page">
-        <div class="cafe-logo">
-            <img src="Greenlogo.png" alt="logo">
-        </div>
-        <div class="landing-content">
-            <h1 class="cafe-name">Greens Cafe</h1>
-            <p class="cafe-tagline">"Where Every Sip Tells a Story"</p>
-            <p class="cafe-description">
-                Welcome to Greens Cafe, your perfect destination for exceptional coffee, delicious food, and warm
-                hospitality. Established in 2025, we serve the community with passion and dedication.
-            </p>
-            <div class="owner-info">
-                <h3>🏢 About Our Establishment & Features ⤵️</h3>
-                <div class="owner-details">
-                    <div class="owner-detail-item">
-                        <strong>Owner:</strong>
-                        <span>Prashant Shrestha</span>
+    <!-- Main App Container -->
+    <div id="app"></div>
+
+    <script>
+        // ================================
+        // DATA & CONFIG
+        // ================================
+        const menuData = {
+            "Beverages": [
+                { id: 1, name: "Cappuccino", description: "Rich espresso with steamed milk foam", price: 3.5 },
+                { id: 2, name: "Americano", description: "Espresso with hot water", price: 2.75 },
+                { id: 3, name: "Iced Latte", description: "Chilled espresso with milk and ice", price: 4.0 }
+            ],
+            "Snacks": [
+                { id: 11, name: "Garlic Bread", description: "Toasted bread with garlic butter", price: 2.5 },
+                { id: 12, name: "Veg Sandwich", description: "Fresh veggies with pesto", price: 5.0 }
+            ],
+            "Desserts": [
+                { id: 21, name: "Chocolate Brownie", description: "Warm brownie with ice-cream", price: 3.75 },
+                { id: 22, name: "Cheesecake", description: "Classic creamy slice", price: 4.25 }
+            ]
+        };
+
+        const mockUsers = {
+            waiters: [
+                { name: 'Asha', uid: '1001234567', password: 'waiter123' },
+                { name: 'Ram', uid: '1009876543', password: 'waiter123' }
+            ],
+            owners: [
+                { name: 'Prashant', uid: '2000000001', password: 'owner123' }
+            ]
+        };
+
+        // ================================
+        // STATE MANAGEMENT
+        // ================================
+        let state = {
+            view: 'landing',
+            currentRole: null,
+            currentUser: null,
+            cart: [],
+            orders: [
+                { id: 501, date: '2025-11-30', tableNo: 'T3', items: 'Cappuccino x1', total: 3.50, status: 'pending', waiter: 'Asha' },
+                { id: 502, date: '2025-11-29', tableNo: 'T1', items: 'Veg Sandwich x2', total: 10.00, status: 'completed', waiter: 'Ram' }
+            ]
+        };
+
+        // ================================
+        // UTILITY FUNCTIONS
+        // ================================
+        function formatCurrency(n) {
+            return n.toFixed(2);
+        }
+
+        function calculateTotal() {
+            return state.cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2);
+        }
+
+        function findMenuItemById(id) {
+            for (const category of Object.values(menuData)) {
+                const item = category.find(i => i.id === id);
+                if (item) return item;
+            }
+            return null;
+        }
+
+        function getStatusClass(status) {
+            switch (status) {
+                case 'pending': return 'status-pending';
+                case 'preparing': return 'status-preparing';
+                case 'completed': return 'status-completed';
+                default: return 'status-pending';
+            }
+        }
+
+        // ================================
+        // STATE MANAGEMENT ACTIONS
+        // ================================
+        function setState(newState) {
+            state = { ...state, ...newState };
+            render();
+        }
+
+        function addToCart(item) {
+            const existing = state.cart.find(c => c.id === item.id);
+            if (existing) {
+                existing.quantity++;
+            } else {
+                state.cart.push({ ...item, quantity: 1 });
+            }
+            setState({ cart: state.cart });
+        }
+
+        function removeFromCart(itemId) {
+            state.cart = state.cart.filter(c => c.id !== itemId);
+            setState({ cart: state.cart });
+        }
+
+        function updateQuantity(itemId, delta) {
+            const item = state.cart.find(c => c.id === itemId);
+            if (!item) return;
+            item.quantity += delta;
+            if (item.quantity <= 0) {
+                removeFromCart(itemId);
+            } else {
+                setState({ cart: state.cart });
+            }
+        }
+
+        function placeOrder() {
+            if (state.cart.length === 0) {
+                alert('Please add items to your order');
+                return;
+            }
+            const itemsDesc = state.cart.map(i => `${i.name} x${i.quantity}`).join(', ');
+            const total = parseFloat(calculateTotal());
+            const order = {
+                id: Math.floor(Math.random() * 9000) + 1000,
+                date: new Date().toISOString().split('T')[0],
+                tableNo: 'T' + (Math.floor(Math.random() * 10) + 1),
+                items: itemsDesc,
+                total: total,
+                status: 'pending',
+                waiter: state.currentUser?.name || 'Unassigned'
+            };
+            state.orders.unshift(order);
+            state.cart = [];
+            alert('Order placed successfully! Order ID: #' + order.id);
+            setState({ orders: state.orders, cart: state.cart });
+        }
+
+        function loginWaiter() {
+            const uid = document.getElementById('waiterUid')?.value;
+            const password = document.getElementById('waiterPassword')?.value;
+            const user = mockUsers.waiters.find(u => u.uid === uid && u.password === password);
+            if (user) {
+                setState({ currentUser: user, currentRole: 'waiter', view: 'waiter' });
+            } else {
+                alert('Invalid credentials');
+            }
+        }
+
+        function loginOwner() {
+            const uid = document.getElementById('ownerUid')?.value;
+            const password = document.getElementById('ownerPassword')?.value;
+            const user = mockUsers.owners.find(u => u.uid === uid && u.password === password);
+            if (user) {
+                setState({ currentUser: user, currentRole: 'owner', view: 'owner' });
+            } else {
+                alert('Invalid credentials');
+            }
+        }
+
+        function logout() {
+            setState({ view: 'landing', currentUser: null, currentRole: null, cart: [] });
+        }
+
+        // ================================
+        // RENDER FUNCTIONS
+        // ================================
+        function render() {
+            const app = document.getElementById('app');
+            switch (state.view) {
+                case 'landing':
+                    app.innerHTML = renderLanding();
+                    break;
+                case 'roleSelect':
+                    app.innerHTML = renderRoleSelect();
+                    break;
+                case 'customerLogin':
+                    app.innerHTML = renderCustomerView();
+                    break;
+                case 'waiterLogin':
+                    app.innerHTML = renderWaiterLogin();
+                    break;
+                case 'ownerLogin':
+                    app.innerHTML = renderOwnerLogin();
+                    break;
+                case 'customer':
+                    app.innerHTML = renderCustomerView();
+                    break;
+                case 'waiter':
+                    app.innerHTML = renderWaiterDashboard();
+                    break;
+                case 'owner':
+                    app.innerHTML = renderOwnerDashboard();
+                    break;
+                default:
+                    app.innerHTML = renderLanding();
+            }
+        }
+
+        function renderLanding() {
+            return `
+            <div class="landing-page">
+                <div class="cafe-logo">
+                    <img src="Greenlogo.png" alt="Greens Cafe Logo">
+                </div>
+                <div class="landing-content">
+                    <h1 class="cafe-name">Greens Cafe</h1>
+                    <p class="cafe-tagline">"Where Every Sip Tells a Story"</p>
+                    <p class="cafe-description">
+                        Welcome to Greens Cafe, your perfect destination for exceptional coffee, delicious food, and warm
+                        hospitality. Established in 2025, we serve the community with passion and dedication.
+                    </p>
+
+                    <div class="owner-info">
+                        <h3>🏢 About Our Establishment & Features</h3>
+                        <div class="owner-details">
+                            <div class="owner-detail-item">
+                                <strong>Owner:</strong>
+                                <span>Prashant Shrestha</span>
+                            </div>
+                            <div class="owner-detail-item">
+                                <strong>Co-Owner:</strong>
+                                <span>Lana Lodes</span>
+                            </div>
+                            <div class="owner-detail-item">
+                                <strong>Restaurant Code:</strong>
+                                <span>MC-0484</span>
+                            </div>
+                            <div class="owner-detail-item">
+                                <strong>Contact:</strong>
+                                <span>+977-9705397845</span>
+                            </div>
+                            <div class="owner-detail-item">
+                                <strong>Location:</strong>
+                                <span>Manakamana college side, Birtamode Jhapa</span>
+                            </div>
+                            <div class="owner-detail-item">
+                                <strong>Operating Hours:</strong>
+                                <span>7:00 AM - 10:00 PM</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="owner-detail-item">
-                        <strong>Co-Owner:</strong>
-                        <span>Lana Lodes</span>
+
+                    <div class="facilities-grid">
+                        <div class="facility-card">
+                            <div class="facility-icon">🌐</div>
+                            <h4>Free WiFi</h4>
+                            <p>High-speed internet for all customers</p>
+                        </div>
+                        <div class="facility-card">
+                            <div class="facility-icon">🅿️</div>
+                            <h4>Parking</h4>
+                            <p>Ample parking space available</p>
+                        </div>
+                        <div class="facility-card">
+                            <div class="facility-icon">❄️</div>
+                            <h4>AC Dining</h4>
+                            <p>Comfortable air-conditioned seating</p>
+                        </div>
+                        <div class="facility-card">
+                            <div class="facility-icon">🎵</div>
+                            <h4>Live Music</h4>
+                            <p>Weekend live performances</p>
+                        </div>
+                        <div class="facility-card">
+                            <div class="facility-icon">🌱</div>
+                            <h4>Organic Options</h4>
+                            <p>Fresh, locally sourced ingredients</p>
+                        </div>
+                        <div class="facility-card">
+                            <div class="facility-icon">👶</div>
+                            <h4>Family Friendly</h4>
+                            <p>Kids menu and play area</p>
+                        </div>
                     </div>
-                    <div class="owner-detail-item">
-                        <strong>Restaurant Code:</strong>
-                        <span>MC-0484</span>
-                    </div>
-                    <div class="owner-detail-item">
-                        <strong>Contact:</strong>
-                        <span>+977-9705397845</span>
-                    </div>
-                    <div class="owner-detail-item">
-                        <strong>Location:</strong>
-                        <span>Manakamana college side, Birtamode Jhapa</span>
-                    </div>
-                    <div class="owner-detail-item">
-                        <strong>Operating Hours:</strong>
-                        <span>7:00 AM - 10:00 PM</span>
+
+                    <div style="margin-top: 30px; text-align: center;">
+                        <button class="btn-amber" onclick="setState({view: 'roleSelect'})">Continue to Menu</button>
                     </div>
                 </div>
             </div>
-            <div class="facilities-grid">
-                <div class="facility-card">
-                    <div class="facility-icon">🌐</div>
-                    <h4>Free WiFi</h4>
-                    <p>High-speed internet for all customers</p>
-                </div>
-                <div class="facility-card">
-                    <div class="facility-icon">🅿️</div>
-                    <h4>Parking</h4>
-                    <p>Ample parking space available</p>
-                </div>
-                <div class="facility-card">
-                    <div class="facility-icon">❄️</div>
-                    <h4>AC Dining</h4>
-                    <p>Comfortable air-conditioned seating</p>
-                </div>
-                <div class="facility-card">
-                    <div class="facility-icon">🎵</div>
-                    <h4>Live Music</h4>
-                    <p>Weekend live performances</p>
-                </div>
-                <div class="facility-card">
-                    <div class="facility-icon">🌱</div>
-                    <h4>Organic Options</h4>
-                    <p>Fresh, locally sourced ingredients</p>
-                </div>
-                <div class="facility-card">
-                    <div class="facility-icon">👶</div>
-                    <h4>Family Friendly</h4>
-                    <p>Kids menu and play area</p>
+        `;
+        }
+
+        function renderRoleSelect() {
+            return `
+            <div class="role-selection-section">
+                <div class="container">
+                    <h2>Select Your Role</h2>
+                    <div class="role-selection">
+                        <div class="role-card">
+                            <h2>👤 Customer</h2>
+                            <p>Browse menu and place orders</p>
+                            <button onclick="setState({view: 'customer'})">Continue as Customer</button>
+                        </div>
+                        <div class="role-card">
+                            <h2>🍽️ Waiter</h2>
+                            <p>Manage customer orders</p>
+                            <button onclick="setState({view: 'waiterLogin'})">Login as Waiter</button>
+                        </div>
+                        <div class="role-card">
+                            <h2>👔 Owner</h2>
+                            <p>View all orders and analytics</p>
+                            <button onclick="setState({view: 'ownerLogin'})">Login as Owner</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <!-- Role Selection Section -->
-    <div id="roleSelectionSection" class="role-selection-section">
-        <div class="container">
-            <h2>Select Your Role</h2>
-            <!-- Role Selection Page -->
-            <div id="roleSelection" class="role-selection">
-                <div class="role-card">
-                    <h2>👤 Customer</h2>
-                    <p>Browse menu and place orders</p>
-                    <button onclick="showCustomerDashboard()">Continue as Customer</button>
-                </div>
-                <div class="role-card">
-                    <h2>🍽️ Waiter</h2>
-                    <p>Manage customer orders</p>
-                    <button onclick="showLogin('waiter')">Login as Waiter</button>
-                </div>
-                <div class="role-card">
-                    <h2>👔 Owner</h2>
-                    <p>View all orders and analytics</p>
-                    <button onclick="showLogin('owner')">Login as Owner</button>
+        `;
+        }
+
+        function renderWaiterLogin() {
+            return `
+            <div style="min-height: 100vh; padding: 48px 20px; display: flex; align-items: center; justify-content: center;">
+                <div class="card" style="max-width: 480px; width: 100%;">
+                    <button onclick="setState({view: 'roleSelect'})" class="btn-amber" style="margin-bottom: 12px;">← Back</button>
+                    <h2 style="text-align: center; font-size: 28px; color: #d4a574; margin-bottom: 18px;">Waiter Login</h2>
+                    <div style="display: flex; flex-direction: column; gap: 16px;">
+                        <div>
+                            <label style="display: block; color: #fff; margin-bottom: 6px;">User ID (UID)</label>
+                            <input id="waiterUid" type="text" value="1001234567" />
+                        </div>
+                        <div>
+                            <label style="display: block; color: #fff; margin-bottom: 6px;">Password</label>
+                            <input id="waiterPassword" type="password" value="waiter123" />
+                        </div>
+                        <button class="btn-amber" style="width: 100%;" onclick="loginWaiter()">Login</button>
+                        <p style="text-align: center; color: #bbb; font-size: 13px;">Demo: UID: 1001234567 | Pass: waiter123</p>
+                    </div>
                 </div>
             </div>
+        `;
+        }
+
+        function renderOwnerLogin() {
+            return `
+            <div style="min-height: 100vh; padding: 48px 20px; display: flex; align-items: center; justify-content: center;">
+                <div class="card" style="max-width: 480px; width: 100%;">
+                    <button onclick="setState({view: 'roleSelect'})" class="btn-amber" style="margin-bottom: 12px;">← Back</button>
+                    <h2 style="text-align: center; font-size: 28px; color: #d4a574; margin-bottom: 18px;">Owner Login</h2>
+                    <div style="display: flex; flex-direction: column; gap: 16px;">
+                        <div>
+                            <label style="display: block; color: #fff; margin-bottom: 6px;">User ID (UID)</label>
+                            <input id="ownerUid" type="text" value="2000000001" />
+                        </div>
+                        <div>
+                            <label style="display: block; color: #fff; margin-bottom: 6px;">Password</label>
+                            <input id="ownerPassword" type="password" value="owner123" />
+                        </div>
+                        <button class="btn-amber" style="width: 100%;" onclick="loginOwner()">Login</button>
+                        <p style="text-align: center; color: #bbb; font-size: 13px;">Demo: UID: 2000000001 | Pass: owner123</p>
+                    </div>
+                </div>
+            </div>
+        `;
+        }
+
+        function renderCustomerView() {
+            const total = calculateTotal();
+            const hasItems = state.cart.length > 0;
+
+            return `
+            <div style="min-height: 100vh; padding: 32px 20px;">
+                <div class="container">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h1 style="font-size: 32px;" class="text-amber">Menu</h1>
+                        <button class="btn-amber" onclick="logout()">Exit</button>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
+                        <div>
+                            ${Object.entries(menuData).map(([category, items]) => `
+                                <div style="margin-bottom: 28px;">
+                                    <h2 style="font-size: 20px; color: #d4a574; margin-bottom: 12px;">${category}</h2>
+                                    <div class="grid-2">
+                                        ${items.map(item => `
+                                            <div class="card">
+                                                <h3 style="font-size: 18px; margin-bottom: 8px;">${item.name}</h3>
+                                                <p class="muted" style="font-size: 13px; margin-bottom: 12px;">${item.description}</p>
+                                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                                    <span class="text-amber" style="font-size: 18px; font-weight: bold;">$${formatCurrency(item.price)}</span>
+                                                    <button class="btn-amber" onclick="addToCart(${JSON.stringify(item).replace(/"/g, '&quot;')})">+ Add</button>
+                                                </div>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <div class="card" style="position: sticky; top: 20px; align-self: start; height: fit-content;">
+                            <h2 style="font-size: 18px; margin-bottom: 16px;" class="text-amber">🛒 Your Order</h2>
+                            ${hasItems ? `
+                                <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; max-height: 400px; overflow-y: auto;">
+                                    ${state.cart.map(item => `
+                                        <div class="cart-item">
+                                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                                <strong>${item.name}</strong>
+                                                <button class="remove-btn" onclick="removeFromCart(${item.id})">✕</button>
+                                            </div>
+                                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                                <div class="cart-controls">
+                                                    <button class="qty-btn" onclick="updateQuantity(${item.id}, -1)">−</button>
+                                                    <span>${item.quantity}</span>
+                                                    <button class="qty-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
+                                                </div>
+                                                <div style="font-weight: bold;">$${formatCurrency(item.price * item.quantity)}</div>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                                <div style="border-top: 1px solid rgba(255, 255, 255, 0.06); padding-top: 12px; margin-bottom: 16px;">
+                                    <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px;">
+                                        <span>Total:</span>
+                                        <span class="text-amber">$${total}</span>
+                                    </div>
+                                </div>
+                                <button class="btn-amber" style="width: 100%;" onclick="placeOrder()">Place Order</button>
+                            ` : `
+                                <p class="muted" style="text-align: center; padding: 24px; font-style: italic;">No items added yet</p>
+                            `}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        }
+
+        function renderWaiterDashboard() {
+            const waiterOrders = state.orders.filter(o => o.waiter === state.currentUser?.name);
+
+            return `
+            <div style="min-height: 100vh; padding: 28px 20px;">
+                <div class="container">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px;">
+                        <h1 class="text-amber" style="font-size: 28px;">Waiter Dashboard</h1>
+                        <div style="display: flex; gap: 12px; align-items: center;">
+                            <span style="background: rgba(255, 255, 255, 0.04); padding: 8px 12px; border-radius: 8px;">👤 ${state.currentUser?.name}</span>
+                            <button class="btn-amber" onclick="logout()">Logout</button>
+                        </div>
+                    </div>
+
+                    <div class="card" style="margin-bottom: 24px;">
+                        <h2 class="text-amber" style="margin-bottom: 12px;">Current Orders</h2>
+            // Initial render + attach
+            document.addEventListener('DOMContentLoaded', function() {
+                render();
+                attachEventListeners();
+            });
+                                    <tr>
+                                        <th>Table</th>
+                                        <th>Order ID</th>
+                                        <th>Items</th>
+                                        <th>Total</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${waiterOrders.map(order => `
+                                        <tr>
+                                            <td>${order.tableNo}</td>
+                                            <td>#${order.id}</td>
+                                            <td>${order.items}</td>
+                                            <td>$${formatCurrency(order.total)}</td>
+                                            <td><span class="status-badge ${getStatusClass(order.status)}">${order.status}</span></td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="grid-3">
+                        <div class="card">
+                            <div style="font-size: 28px; margin-bottom: 8px;">💰</div>
+                            <h3 class="muted">Total Earnings</h3>
+                            <p style="font-size: 20px; font-weight: bold;">$203.50</p>
+                        </div>
+                        <div class="card">
+                            <div style="font-size: 28px; margin-bottom: 8px;">📈</div>
+                            <h3 class="muted">Commission</h3>
+                            <p style="font-size: 20px; font-weight: bold;">$125.50</p>
+                        </div>
+                        <div class="card">
+                            <div style="font-size: 28px; margin-bottom: 8px;">⭐</div>
+                            <h3 class="muted">Tips Received</h3>
+                            <p style="font-size: 20px; font-weight: bold;">$78.00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        }
+
+        function renderOwnerDashboard() {
+            return `
+            <div style="min-height: 100vh; padding: 28px 20px;">
+                <div class="container">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px;">
+                        <h1 class="text-amber" style="font-size: 28px;">Owner Dashboard</h1>
+                        <button class="btn-amber" onclick="logout()">Logout</button>
+                    </div>
+
+                    <div class="grid-4">
+                        <div class="card">
+                            <h3 class="muted">Total Sales</h3>
+                            <p style="font-size: 20px; font-weight: bold;">$1,245.50</p>
+                        </div>
+                        <div class="card">
+                            <h3 class="muted">Total Orders</h3>
+                            <p style="font-size: 20px; font-weight: bold;">${state.orders.length}</p>
+                        </div>
+                        <div class="card">
+                            <h3 class="muted">Net Profit</h3>
+                            <p style="font-size: 20px; font-weight: bold;">$622.25</p>
+                        </div>
+                        <div class="card">
+                            <h3 class="muted">Avg Order</h3>
+                            <p style="font-size: 20px; font-weight: bold;">$25.95</p>
+                        </div>
+                    </div>
+
+                    <div class="card" style="margin-top: 24px; margin-bottom: 24px;">
+                        <h2 class="text-amber" style="margin-bottom: 12px;">All Orders</h2>
+                        <div style="overflow-x: auto;">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Order ID</th>
+                                        <th>Table</th>
+                                        <th>Items</th>
+                                        <th>Total</th>
+                                        <th>Status</th>
+                                        <th>Waiter</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${state.orders.map(order => `
+                                        <tr>
+                                            <td>${order.date}</td>
+                                            <td>#${order.id}</td>
+                                            <td>${order.tableNo}</td>
+                                            <td>${order.items}</td>
+                                            <td>$${formatCurrency(order.total)}</td>
+                                            <td><span class="status-badge ${getStatusClass(order.status)}">${order.status}</span></td>
+                                            <td>${order.waiter}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h2 class="text-amber" style="margin-bottom: 12px;">Waiter Performance</h2>
+                        <div style="overflow-x: auto;">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>UID</th>
+                                        <th>Orders</th>
+                                        <th>Commission</th>
+                                        <th>Tips</th>
+                                        <th>Rating</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${mockUsers.waiters.map(waiter => `
+                                        <tr>
+                                            <td>${waiter.name}</td>
+                                            <td>${waiter.uid}</td>
+                                            <td>24</td>
+                                            <td>$62.50</td>
+                                            <td>$45.00</td>
+                                            <td>⭐⭐⭐⭐⭐</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        }
+
+        // ================================
+        // INITIALIZE APP
+        // ================================
+        render();
+    </script>
 </body>
 
 </html>
